@@ -9,6 +9,7 @@ import javax.security.auth.login.LoginException;
 
 import commands.Balance;
 import commands.Coinflip;
+import commands.RockPaperScissors;
 import database.Database;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
@@ -28,6 +29,7 @@ public class MainClass {
 	JDA jda = JDABuilder.create(token, GatewayIntent.getIntents(GatewayIntent.ALL_INTENTS)).build();
 	jda.addEventListener(new Coinflip());
 	jda.addEventListener(new Balance());
+	jda.addEventListener(new RockPaperScissors());
 	Database.database(); // boot the database
 
 	jda.awaitReady();
