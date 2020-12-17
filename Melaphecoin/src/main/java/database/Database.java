@@ -22,7 +22,7 @@ public class Database extends Thread {
 
     private static final String BALANCE_FILE = "C:\\Users\\almog\\Desktop\\balance.txt";
     private static final String DAILY_SPIN_FILE = "C:\\Users\\almog\\Desktop\\daily spin.txt";
-    private static final long BACKUP_CYCLE_TIME = 10 * 60000; // 10 minutes
+    private static final long BACKUP_CYCLE_TIME = 1 * 60000; // 1 minute
 
     private static final int STARTING_BALANCE = 100;
 
@@ -57,7 +57,7 @@ public class Database extends Thread {
 
 	for (String line : lines) {
 	    String[] parts = line.split("-");
-	    balances.put(Long.valueOf(parts[0]), Integer.valueOf(parts[1]));
+	    dailySpins.put(Long.valueOf(parts[0]), Long.valueOf(parts[1]));
 	}
 
 	start();
@@ -109,20 +109,22 @@ public class Database extends Thread {
 
     /**
      * Uses the member's free daily spin
+     * 
      * @param memberId - target member to use his daily spin
      */
     public void useFreeSpin(long memberId) {
-	dailySpins.put(memberId, System.currentTimeMillis() / 1000);
+	dailySpins.put(memberId, System.currentTimeMillis() / 1000l);
 	updateDailySpin = true;
     }
 
     /**
      * Checks if the member can use his free daily spin
+     * 
      * @param memberId - member to check
      * @return true/false if the member has a free spin or not
      */
     public boolean hasFreeSpin(long memberId) {
-	if (!dailySpins.contains(memberId)) {
+	if (!dailySpins.containsKey(memberId)) {
 	    dailySpins.put(memberId, 0l);
 	    updateDailySpin = true;
 	}
