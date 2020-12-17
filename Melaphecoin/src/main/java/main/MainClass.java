@@ -12,7 +12,7 @@ import net.dv8tion.jda.api.requests.GatewayIntent;
 
 public class MainClass {
 
-    private static final String TOKEN = "Nzg4ODQxNTg2MjYyODAyNDUy.X9pX-g.CqtbEgPOgqACzWvato7rsGTxOrg";
+    private static final String TOKEN = "";
 
     public static Emote melaphecoin = null;
     public static String coin = null;
