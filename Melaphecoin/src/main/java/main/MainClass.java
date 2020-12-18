@@ -12,6 +12,7 @@ import commands.Coinflip;
 import commands.DailySpin;
 import commands.RockPaperScissors;
 import commands.Roulette;
+import commands.Transfer;
 import database.Database;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
@@ -37,6 +38,7 @@ public class MainClass {
 	jda.addEventListener(new RockPaperScissors());
 	jda.addEventListener(new DailySpin());
 	jda.addEventListener(new Roulette());
+	jda.addEventListener(new Transfer());
 	Database.database(); // boot the database
 
 	jda.awaitReady();

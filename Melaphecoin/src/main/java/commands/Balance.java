@@ -10,7 +10,7 @@ public class Balance extends ListenerAdapter {
     @Override
     public void onMessageReceived(MessageReceivedEvent event) {
 	String msg = event.getMessage().getContentRaw();
-	if (!msg.startsWith("?balance") && !msg.startsWith("?bal"))
+	if (!msg.startsWith("?balance") && !msg.startsWith("?bal") && !msg.startsWith("?cash"))
 	    return;
 
 	String[] parts = msg.split(" ");
