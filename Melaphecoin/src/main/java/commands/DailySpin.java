@@ -41,7 +41,7 @@ public class DailySpin extends ListenerAdapter {
     @Override
     public void onMessageReceived(MessageReceivedEvent event) {
 	String msg = event.getMessage().getContentRaw();
-	if (!msg.startsWith("?dailyspin") && !msg.startsWith("?ds"))
+	if (!msg.toLowerCase().startsWith("?dailyspin") && !msg.toLowerCase().startsWith("?ds"))
 	    return;
 
 	String[] parts = msg.split(" ");

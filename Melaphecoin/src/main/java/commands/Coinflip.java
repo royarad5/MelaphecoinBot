@@ -20,7 +20,7 @@ public class Coinflip extends ListenerAdapter {
 	// ?coinflip accept @target
 
 	String msg = event.getMessage().getContentRaw();
-	if (!msg.startsWith("?coinflip") && !msg.startsWith("?cf"))
+	if (!msg.toLowerCase().startsWith("?coinflip") && !msg.toLowerCase().startsWith("?cf"))
 	    return;
 
 	String[] parts = msg.split(" ");
@@ -59,19 +59,26 @@ public class Coinflip extends ListenerAdapter {
 		long player2 = Long.valueOf(parts[2].substring(3, parts[2].length() - 1));
 		int amount = Integer.valueOf(parts[1]);
 
-		int flipIndex = indexOf(player1, player2);
-		if (flipIndex == -1) {
-		    flips.add(new CoinflipData(player1, player2, amount));
+		if (database.read(player1) < amount)
+		    outMessage = tagMember(event, player1) + " can't afford a bet of: **" + amount + MainClass.coin + "**";
+		else if (database.read(player2) < amount)
+		    outMessage = tagMember(event, player2) + " can't afford a bet of: **" + amount + MainClass.coin + "**";
+		else {
 
-		    outMessage = "Placed a bet for: **" + amount + MainClass.coin + "** between "
-			    + tagMember(event, player1) + " and " + tagMember(event, player2);
-		} else {
-		    CoinflipData placedFlip = flips.remove(flipIndex);
-		    flips.add(new CoinflipData(player1, player2, amount));
+		    int flipIndex = indexOf(player1, player2);
+		    if (flipIndex == -1) {
+			flips.add(new CoinflipData(player1, player2, amount));
 
-		    outMessage = "Replaced a bet between " + tagMember(event, player1) + " and "
-			    + tagMember(event, player2) + " for: **" + placedFlip.amount + MainClass.coin
-			    + "** with: **" + amount + MainClass.coin + "**";
+			outMessage = "Placed a bet for: **" + amount + MainClass.coin + "** between "
+				+ tagMember(event, player1) + " and " + tagMember(event, player2);
+		    } else {
+			CoinflipData placedFlip = flips.remove(flipIndex);
+			flips.add(new CoinflipData(player1, player2, amount));
+
+			outMessage = "Replaced a bet between " + tagMember(event, player1) + " and "
+				+ tagMember(event, player2) + " for: **" + placedFlip.amount + MainClass.coin
+				+ "** with: **" + amount + MainClass.coin + "**";
+		    }
 		}
 	    }
 	} catch (Exception ignored) {

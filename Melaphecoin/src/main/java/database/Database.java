@@ -49,7 +49,7 @@ public class Database extends Thread {
 	    String[] parts = line.split("-");
 	    balances.put(Long.valueOf(parts[0]), Integer.valueOf(parts[1]));
 	}
-
+	//---------------------------------------------------------------------------
 	try {
 	    lines = Files.readAllLines(new File(DAILY_SPIN_FILE).toPath(), Charset.defaultCharset());
 	} catch (IOException ignored) {
