@@ -21,6 +21,8 @@ public class Roulette extends ListenerAdapter {
 	long memberId = event.getMember().getIdLong();
 	String[] parts = msg.split(" ");
 
+	try {
+	
 	if (parts.length > 2) {
 	    int bet = Integer.parseInt(parts[1]);
 	    if (database.subtract(event.getMember().getIdLong(), bet) == -1) {
@@ -39,6 +41,9 @@ public class Roulette extends ListenerAdapter {
 		    database.add(memberId, prize);
 		}
 	    }
+	}
+	} catch(Exception e) {
+	    event.getChannel().sendMessage("Error proccessing the command").queue();
 	}
 
     }
