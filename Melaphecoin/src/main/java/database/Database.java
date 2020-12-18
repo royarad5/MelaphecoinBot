@@ -49,7 +49,7 @@ public class Database extends Thread {
 	    String[] parts = line.split("-");
 	    balances.put(Long.valueOf(parts[0]), Integer.valueOf(parts[1]));
 	}
-	//---------------------------------------------------------------------------
+	// ---------------------------------------------------------------------------
 	try {
 	    lines = Files.readAllLines(new File(DAILY_SPIN_FILE).toPath(), Charset.defaultCharset());
 	} catch (IOException ignored) {
@@ -70,41 +70,51 @@ public class Database extends Thread {
 	    while (startingTime + BACKUP_CYCLE_TIME > System.currentTimeMillis()) {
 	    }
 
-	    if (updateBalance) {
-		String dataToWrite = "";
-
-		Iterator<Entry<Long, Integer>> iterator = balances.entrySet().iterator();
-		while (iterator.hasNext()) {
-		    Entry<Long, Integer> pair = iterator.next();
-		    dataToWrite += String.valueOf(pair.getKey()) + "-" + String.valueOf(pair.getValue()) + "\n";
-		}
-
-		try (Writer writer = new BufferedWriter(
-			new OutputStreamWriter(new FileOutputStream(BALANCE_FILE), "utf-8"))) {
-		    writer.write(dataToWrite);
-		} catch (IOException ignored) {
-		}
-
-		updateBalance = false;
-	    }
-	    if (updateDailySpin) {
-		String dataToWrite = "";
-
-		Iterator<Entry<Long, Long>> iterator = dailySpins.entrySet().iterator();
-		while (iterator.hasNext()) {
-		    Entry<Long, Long> pair = iterator.next();
-		    dataToWrite += String.valueOf(pair.getKey()) + "-" + String.valueOf(pair.getValue()) + "\n";
-		}
-
-		try (Writer writer = new BufferedWriter(
-			new OutputStreamWriter(new FileOutputStream(DAILY_SPIN_FILE), "utf-8"))) {
-		    writer.write(dataToWrite);
-		} catch (IOException ignored) {
-		}
-
-		updateBalance = false;
-	    }
+	    save();
 	}
+    }
+
+    private void save() {
+	if (updateBalance) {
+	    String dataToWrite = "";
+
+	    Iterator<Entry<Long, Integer>> iterator = balances.entrySet().iterator();
+	    while (iterator.hasNext()) {
+		Entry<Long, Integer> pair = iterator.next();
+		dataToWrite += String.valueOf(pair.getKey()) + "-" + String.valueOf(pair.getValue()) + "\n";
+	    }
+
+	    try (Writer writer = new BufferedWriter(
+		    new OutputStreamWriter(new FileOutputStream(BALANCE_FILE), "utf-8"))) {
+		writer.write(dataToWrite);
+	    } catch (IOException ignored) {
+	    }
+
+	    updateBalance = false;
+	}
+	if (updateDailySpin) {
+	    String dataToWrite = "";
+
+	    Iterator<Entry<Long, Long>> iterator = dailySpins.entrySet().iterator();
+	    while (iterator.hasNext()) {
+		Entry<Long, Long> pair = iterator.next();
+		dataToWrite += String.valueOf(pair.getKey()) + "-" + String.valueOf(pair.getValue()) + "\n";
+	    }
+
+	    try (Writer writer = new BufferedWriter(
+		    new OutputStreamWriter(new FileOutputStream(DAILY_SPIN_FILE), "utf-8"))) {
+		writer.write(dataToWrite);
+	    } catch (IOException ignored) {
+	    }
+
+	    updateBalance = false;
+	}
+    }
+    
+    public void forceSave() {
+	updateBalance = true;
+	updateDailySpin = true;
+	save();
     }
 
     /**
