@@ -23,7 +23,7 @@ public class RockPaperScissors extends ListenerAdapter {
 	// react with emote to message from bot
 
 	String msg = event.getMessage().getContentRaw();
-	if (!msg.startsWith("?rps"))
+	if (!msg.toLowerCase().startsWith("?rps"))
 	    return;
 
 	String[] parts = msg.split(" ");

@@ -10,7 +10,7 @@ public class Transfer extends ListenerAdapter {
     @Override
     public void onMessageReceived(MessageReceivedEvent event) {
 	String msg = event.getMessage().getContentRaw();
-	if (!msg.startsWith("?give") && !msg.startsWith("?transfer"))
+	if (!msg.toLowerCase().startsWith("?give") && !msg.toLowerCase().startsWith("?transfer"))
 	    return;
 
 	String[] parts = msg.split(" ");
