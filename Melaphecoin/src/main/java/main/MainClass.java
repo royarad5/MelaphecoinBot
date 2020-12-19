@@ -30,7 +30,6 @@ import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import passiveTasks.CountingToFine;
-import passiveTasks.SelfDeletor;
 
 public class MainClass {
 
@@ -65,7 +64,6 @@ public class MainClass {
 	jda.addEventListener(new Sex());
 
 	jda.addEventListener(new CountingToFine());
-	jda.addEventListener(new SelfDeletor());
 	Database.database(); // boot the database
 
 	melaphecoin = getGuild().getEmotesByName("Melaphecoin", false).get(0);

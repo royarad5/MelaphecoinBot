@@ -1,6 +1,5 @@
 package commands;
 
-import static database.MessageDeletor.deleteMessage;
 import static main.MainClass.coin;
 import static main.MainClass.tagMember;
 
@@ -24,8 +23,6 @@ public class Roulette extends ListenerAdapter {
 	if (!msg.toLowerCase().startsWith("?roulette") && !msg.toLowerCase().startsWith("?rt"))
 	    return;
 	
-	deleteMessage(event.getChannel().getIdLong(), event.getMessage().getIdLong());
-
 	long memberId = event.getMember().getIdLong();
 	String[] parts = msg.split(" ");
 

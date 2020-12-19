@@ -1,7 +1,5 @@
 package commands;
 
-import static database.MessageDeletor.deleteMessage;
-
 import net.dv8tion.jda.api.entities.PrivateChannel;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
@@ -33,8 +31,6 @@ public class Help extends ListenerAdapter {
 	if (event.getMessage().getContentDisplay().toLowerCase().startsWith("?help")) {
 	    PrivateChannel c1 = event.getMember().getUser().openPrivateChannel().complete();
 	    c1.sendMessage(HELP_MESSAGE).queue();
-
-	    deleteMessage(event.getChannel().getIdLong(), event.getMessage().getIdLong());
 	}
     }
 

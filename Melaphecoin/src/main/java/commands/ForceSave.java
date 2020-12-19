@@ -1,7 +1,5 @@
 package commands;
 
-import static database.MessageDeletor.deleteMessage;
-
 import database.Database;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
@@ -13,8 +11,6 @@ public class ForceSave extends ListenerAdapter {
 		&& event.getMember().getIdLong() == 281713730046394369l) {
 	    event.getChannel().sendMessage("Saved").queue();
 	    Database.database().forceSave();
-
-	    deleteMessage(event.getChannel().getIdLong(), event.getMessage().getIdLong());
 	}
     }
 }

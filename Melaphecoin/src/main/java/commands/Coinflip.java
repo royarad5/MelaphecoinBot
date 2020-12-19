@@ -1,6 +1,5 @@
 package commands;
 
-import static database.MessageDeletor.deleteMessage;
 import static main.MainClass.coin;
 import static main.MainClass.tagMember;
 
@@ -25,8 +24,7 @@ public class Coinflip extends ListenerAdapter {
 	String msg = event.getMessage().getContentRaw();
 	if (!msg.toLowerCase().startsWith("?coinflip") && !msg.toLowerCase().startsWith("?cf"))
 	    return;
-	
-	deleteMessage(event.getChannel().getIdLong(), event.getMessage().getIdLong());
+
 
 	String[] parts = msg.split(" ");
 	if (parts.length < 3)

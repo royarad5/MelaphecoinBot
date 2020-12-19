@@ -1,6 +1,5 @@
 package commands;
 
-import static database.MessageDeletor.deleteMessage;
 import static main.MainClass.coin;
 import static main.MainClass.getGuild;
 import static main.MainClass.getMemberById;
@@ -31,8 +30,6 @@ public class RockPaperScissors extends ListenerAdapter {
 	String msg = event.getMessage().getContentRaw();
 	if (!msg.toLowerCase().startsWith("?rps"))
 	    return;
-
-	deleteMessage(event.getChannel().getIdLong(), event.getMessage().getIdLong());
 
 	String[] parts = msg.split(" ");
 	if (parts.length < 3)

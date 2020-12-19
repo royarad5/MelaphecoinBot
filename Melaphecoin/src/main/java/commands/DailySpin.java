@@ -1,6 +1,5 @@
 package commands;
 
-import static database.MessageDeletor.deleteMessage;
 import static main.MainClass.coin;
 import static main.MainClass.tagMember;
 
@@ -38,7 +37,8 @@ public class DailySpin extends ListenerAdapter {
 	    prize = 25;
 
 	database.add(memberId, prize);
-	event.getChannel().sendMessage(tagMember(memberId) + " won: **" + prize + coin + "**").queue();;
+	event.getChannel().sendMessage(tagMember(memberId) + " won: **" + prize + coin + "**").queue();
+	;
     }
 
     @Override
@@ -46,8 +46,6 @@ public class DailySpin extends ListenerAdapter {
 	String msg = event.getMessage().getContentRaw();
 	if (!msg.toLowerCase().startsWith("?dailyspin") && !msg.toLowerCase().startsWith("?ds"))
 	    return;
-	
-	deleteMessage(event.getChannel().getIdLong(), event.getMessage().getIdLong());
 
 	String[] parts = msg.split(" ");
 
