@@ -38,7 +38,7 @@ public class Coinflip extends ListenerAdapter {
 	String outMessage = "";
 	try {
 	    if ("accept".equals(parts[1])) {
-		long player1 = Long.valueOf(parts[2].substring(3, parts[2].length() - 1));
+		long player1 = Long.valueOf(parts[2].substring(2, parts[2].length() - 1));
 		long player2 = event.getMember().getIdLong();
 
 		int flipIndex = indexOf(player1, player2);
@@ -64,7 +64,7 @@ public class Coinflip extends ListenerAdapter {
 		}
 	    } else {
 		long player1 = event.getMember().getIdLong();
-		long player2 = Long.valueOf(parts[2].substring(3, parts[2].length() - 1));
+		long player2 = Long.valueOf(parts[2].substring(2, parts[2].length() - 1));
 		int amount = Integer.valueOf(parts[1]);
 		
 		if (amount < 0) {

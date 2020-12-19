@@ -41,7 +41,7 @@ public class RockPaperScissors extends ListenerAdapter {
 	String outMessage = "";
 
 	long player1 = event.getMember().getIdLong();
-	long player2 = Long.valueOf(parts[2].substring(3, parts[2].length() - 1));
+	long player2 = Long.valueOf(parts[2].substring(2, parts[2].length() - 1));
 	int gameIndex = indexOf(player1, player2);
 
 	if ("accept".equalsIgnoreCase(parts[1])) {

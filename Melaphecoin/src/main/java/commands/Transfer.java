@@ -29,9 +29,14 @@ public class Transfer extends ListenerAdapter {
 
 	String[] parts = msg.split(" ");
 
+	System.out.println(msg);
+	System.out.println(parts[0]);
+	System.out.println(parts[1]);
+	System.out.println(parts[2]);
+
 	try {
 	    int amount = Integer.valueOf(parts[1]);
-	    long target = Long.valueOf(parts[2].substring(3, parts[2].length() - 1));
+	    long target = Long.valueOf(parts[2].substring(2, parts[2].length() - 1));
 	    long giver = event.getMember().getIdLong();
 
 	    if (amount < 0) {
@@ -46,6 +51,7 @@ public class Transfer extends ListenerAdapter {
 		event.getChannel().sendMessage(tagMember(giver) + " can't give: **" + amount + coin + "**").queue();
 	} catch (Exception e) {
 	    event.getChannel().sendMessage("Error while processing the command").queue();
+	    e.printStackTrace();
 	}
     }
 }

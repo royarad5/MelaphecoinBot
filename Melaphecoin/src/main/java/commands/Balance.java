@@ -30,7 +30,7 @@ public class Balance extends ListenerAdapter {
 	long member = event.getMember().getIdLong();
 
 	if (parts.length > 1)
-	    member = Long.valueOf(parts[1].substring(3, parts[1].length() - 1));
+	    member = Long.valueOf(parts[1].substring(2, parts[1].length() - 1));
 
 	event.getChannel()
 		.sendMessage(tagMember(member) + ": **" + Database.database().getBalance(member) + "**" + coin).queue();
