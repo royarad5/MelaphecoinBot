@@ -1,9 +1,11 @@
 package commands;
 
+import static main.MainClass.coin;
+import static main.MainClass.tagMember;
+
 import java.util.ArrayList;
 
 import database.Database;
-import main.MainClass;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
@@ -35,7 +37,7 @@ public class Coinflip extends ListenerAdapter {
 
 		int flipIndex = indexOf(player1, player2);
 		if (flipIndex == -1)
-		    outMessage = tagMember(event, player1) + " and " + tagMember(event, player2)
+		    outMessage = tagMember(player1) + " and " + tagMember(player2)
 			    + " don't have a bet together";
 		else {
 		    CoinflipData placedFlip = flips.remove(flipIndex);
@@ -49,9 +51,9 @@ public class Coinflip extends ListenerAdapter {
 
 		    boolean success = database.transfer(player2, player1, placedFlip.amount);
 		    if (success)
-			outMessage = tagMember(event, player1) + " won: **" + placedFlip.amount + MainClass.coin + "**";
+			outMessage = tagMember(player1) + " won: **" + placedFlip.amount + coin + "**";
 		    else
-			outMessage = tagMember(event, player1) + " won, but " + tagMember(event, player2)
+			outMessage = tagMember(player1) + " won, but " + tagMember(player2)
 				+ " can't pay up, bet cancelled";
 		}
 	    } else {
@@ -59,11 +61,11 @@ public class Coinflip extends ListenerAdapter {
 		long player2 = Long.valueOf(parts[2].substring(3, parts[2].length() - 1));
 		int amount = Integer.valueOf(parts[1]);
 
-		if (database.read(player1) < amount)
-		    outMessage = tagMember(event, player1) + " can't afford a bet of: **" + amount + MainClass.coin
+		if (database.getBalance(player1) < amount)
+		    outMessage = tagMember(player1) + " can't afford a bet of: **" + amount + coin
 			    + "**";
-		else if (database.read(player2) < amount)
-		    outMessage = tagMember(event, player2) + " can't afford a bet of: **" + amount + MainClass.coin
+		else if (database.getBalance(player2) < amount)
+		    outMessage = tagMember(player2) + " can't afford a bet of: **" + amount +coin
 			    + "**";
 		else {
 
@@ -71,17 +73,17 @@ public class Coinflip extends ListenerAdapter {
 		    if (flipIndex == -1) {
 			flips.add(new CoinflipData(player1, player2, amount));
 
-			outMessage = "Placed a bet for: **" + amount + MainClass.coin + "** between "
-				+ tagMember(event, player1) + " and " + tagMember(event, player2)
-				+ " waiting for: ?cf accept " + tagMember(event, player2);
+			outMessage = "Placed a bet for: **" + amount + coin + "** between "
+				+ tagMember(player1) + " and " + tagMember(player2)
+				+ " waiting for: ?cf accept " + tagMember(player2);
 		    } else {
 			CoinflipData placedFlip = flips.remove(flipIndex);
 			flips.add(new CoinflipData(player1, player2, amount));
 
-			outMessage = "Replaced a bet between " + tagMember(event, player1) + " and "
-				+ tagMember(event, player2) + " for: **" + placedFlip.amount + MainClass.coin
-				+ "** with: **" + amount + MainClass.coin + "** waiting for: ?cf accept "
-				+ tagMember(event, player2);
+			outMessage = "Replaced a bet between " + tagMember(player1) + " and "
+				+ tagMember(player2) + " for: **" + placedFlip.amount + coin
+				+ "** with: **" + amount + coin + "** waiting for: ?cf accept "
+				+ tagMember(player2);
 			;
 		    }
 		}
@@ -107,17 +109,6 @@ public class Coinflip extends ListenerAdapter {
 		return i;
 	}
 	return -1;
-    }
-
-    /**
-     * Returns the string required to tag a member (@someone)
-     * 
-     * @param event    - event to get the guild from
-     * @param memberId - member to tag
-     * @return - the string literal to tag someone
-     */
-    private String tagMember(MessageReceivedEvent event, long memberId) {
-	return event.getGuild().getMemberById(memberId).getAsMention();
     }
 
     /**

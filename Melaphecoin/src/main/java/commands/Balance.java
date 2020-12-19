@@ -1,7 +1,9 @@
 package commands;
 
+import static main.MainClass.coin;
+import static main.MainClass.tagMember;
+
 import database.Database;
-import main.MainClass;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
@@ -21,11 +23,7 @@ public class Balance extends ListenerAdapter {
 	    member = Long.valueOf(parts[1].substring(3, parts[1].length() - 1));
 
 	event.getChannel()
-		.sendMessage(tagMember(member) + ": **" + Database.database().read(member) + "**" + MainClass.coin)
+		.sendMessage(tagMember(member) + ": **" + Database.database().getBalance(member) + "**" + coin)
 		.queue();
-    }
-
-    private String tagMember(long memberId) {
-	return MainClass.jda.getGuildById(MainClass.MALOSH_ID).getMemberById(memberId).getAsMention();
     }
 }

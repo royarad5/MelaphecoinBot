@@ -12,6 +12,7 @@ import commands.Coinflip;
 import commands.DailySpin;
 import commands.ForceSave;
 import commands.Help;
+import commands.Leaderboard;
 import commands.RockPaperScissors;
 import commands.Roulette;
 import commands.Transfer;
@@ -19,16 +20,19 @@ import database.Database;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.Emote;
+import net.dv8tion.jda.api.entities.Guild;
+import net.dv8tion.jda.api.entities.Member;
+import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 
 public class MainClass {
 
     private static final String TOKEN_FILE = "C:\\Users\\almog\\Desktop\\token.txt";
-    
+
     public static final long MALOSH_ID = 699728425941991566l;
     public static Emote melaphecoin = null;
     public static String coin = null;
-    
+
     public static JDA jda;
 
     public static void main(String[] args) throws LoginException, InterruptedException, IOException {
@@ -43,10 +47,27 @@ public class MainClass {
 	jda.addEventListener(new Transfer());
 	jda.addEventListener(new ForceSave());
 	jda.addEventListener(new Help());
+	jda.addEventListener(new Leaderboard());
 	Database.database(); // boot the database
 
 	jda.awaitReady();
-	melaphecoin = jda.getGuildById(MALOSH_ID).getEmotesByName("Melaphecoin", false).get(0);
+	melaphecoin = getGuild().getEmotesByName("Melaphecoin", false).get(0);
 	coin = " " + melaphecoin.getAsMention();
+    }
+
+    public static String tagMember(long memberId) {
+	return getMemberById(memberId).getAsMention();
+    }
+    
+    public static User getUserById(long userId) {
+	return jda.getUserById(userId);
+    }
+    
+    public static Member getMemberById(long memberId) {
+	return getGuild().getMemberById(memberId);
+    }
+    
+    public static Guild getGuild() {
+	return jda.getGuildById(MALOSH_ID);
     }
 }

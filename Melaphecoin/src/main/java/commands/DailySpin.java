@@ -1,9 +1,11 @@
 package commands;
 
+import static main.MainClass.coin;
+import static main.MainClass.tagMember;
+
 import java.util.Random;
 
 import database.Database;
-import main.MainClass;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
@@ -35,7 +37,7 @@ public class DailySpin extends ListenerAdapter {
 	    prize = 25;
 
 	database.add(memberId, prize);
-	event.getChannel().sendMessage(tagMember(event, memberId) + " won: **" + prize + MainClass.coin + "**").queue();;
+	event.getChannel().sendMessage(tagMember(memberId) + " won: **" + prize + coin + "**").queue();;
     }
 
     @Override
@@ -58,16 +60,5 @@ public class DailySpin extends ListenerAdapter {
 	    } else
 		event.getChannel().sendMessage("You've already used your free spin today").queue();
 	}
-    }
-
-    /**
-     * Returns the string required to tag a member (@someone)
-     * 
-     * @param event    - event to get the guild from
-     * @param memberId - member to tag
-     * @return - the string literal to tag someone
-     */
-    private String tagMember(MessageReceivedEvent event, long memberId) {
-	return event.getGuild().getMemberById(memberId).getAsMention();
     }
 }

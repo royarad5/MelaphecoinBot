@@ -149,13 +149,17 @@ public class Database extends Thread {
 	return unixTimeStamp > dailySpins.get(memberId);
     }
 
+    public ConcurrentHashMap<Long, Integer> getBalances(){
+	return new ConcurrentHashMap<Long, Integer>(balances);
+    }
+    
     /**
      * Sets the balance of a member to the given balance
      * 
      * @param memberId - targte member
      * @param balance  - balance to set to
      */
-    public void write(long memberId, int balance) {
+    public void setBalance(long memberId, int balance) {
 	validateMemberBalance(memberId);
 	balances.put(memberId, balance);
 	updateBalance = true;
@@ -167,7 +171,7 @@ public class Database extends Thread {
      * @param memberId - target member
      * @return balance
      */
-    public int read(long memberId) {
+    public int getBalance(long memberId) {
 	validateMemberBalance(memberId);
 	return balances.get(memberId);
     }

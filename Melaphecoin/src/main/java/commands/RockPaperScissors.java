@@ -1,5 +1,7 @@
 package commands;
 
+import static main.MainClass.*;
+
 import java.util.ArrayList;
 
 import database.Database;
@@ -50,25 +52,25 @@ public class RockPaperScissors extends ListenerAdapter {
 	    Database db = Database.database();
 	    boolean canPlay = false;
 
-	    if (db.read(player1) < amount)
-		outMessage = tagMember(player1) + " can't afford a bet of: **" + amount + MainClass.coin + "**";
-	    else if (db.read(player2) < amount)
-		outMessage = tagMember(player2) + " can't afford a bet of: **" + amount + MainClass.coin + "**";
+	    if (db.getBalance(player1) < amount)
+		outMessage = tagMember(player1) + " can't afford a bet of: **" + amount + coin + "**";
+	    else if (db.getBalance(player2) < amount)
+		outMessage = tagMember(player2) + " can't afford a bet of: **" + amount + coin + "**";
 	    else
 		canPlay = true;
 	    if (canPlay) {
 		if (gameIndex == -1) {
 		    games.add(new Game(player1, player2, amount, event.getChannel()));
 		    outMessage = "Started a game of rock paper scissors between: " + tagMember(player1) + " and "
-			    + tagMember(player2) + " for:** " + amount + MainClass.coin
-			    + "**, waiting for: ?rps accept " + tagMember(player2);
+			    + tagMember(player2) + " for:** " + amount + coin + "**, waiting for: ?rps accept "
+			    + tagMember(player2);
 
 		} else {
 		    canPlay = true;
 		    Game oldGame = games.remove(gameIndex);
 		    outMessage = "Replaced a game of rock paper scissors between: " + tagMember(player1) + " and "
-			    + tagMember(player2) + " for:** " + oldGame.amount + MainClass.coin + "** with: **" + amount
-			    + MainClass.coin + "**, waiting for: ?rps accept " + tagMember(player2);
+			    + tagMember(player2) + " for:** " + oldGame.amount + coin + "** with: **" + amount + coin
+			    + "**, waiting for: ?rps accept " + tagMember(player2);
 		    games.add(new Game(player1, player2, amount, event.getChannel()));
 		}
 
@@ -86,8 +88,7 @@ public class RockPaperScissors extends ListenerAdapter {
 	String msg = event.getChannel().retrieveMessageById(event.getMessageId()).complete().getContentDisplay();
 	String name = msg.substring(msg.indexOf(":") + 2);
 
-	long player2 = event.getJDA().getGuildById(MainClass.MALOSH_ID).getMembersByEffectiveName(name, false).get(0)
-		.getIdLong();
+	long player2 = getGuild().getMembersByEffectiveName(name, false).get(0).getIdLong();
 
 	int choice = -1;
 	String emote = event.getReactionEmote().getAsCodepoints();
@@ -116,10 +117,6 @@ public class RockPaperScissors extends ListenerAdapter {
 		return i;
 	}
 	return -1;
-    }
-
-    private String tagMember(long memberId) {
-	return MainClass.jda.getGuildById(MainClass.MALOSH_ID).getMemberById(memberId).getAsMention();
     }
 
     private class Game {
@@ -163,8 +160,8 @@ public class RockPaperScissors extends ListenerAdapter {
 
 	public void startGame() {
 	    PrivateChannel c1 = MainClass.jda.getUserById(player1).openPrivateChannel().complete();
-	    c1.sendMessage("Reply to this message with your pick, playing vs: "
-		    + MainClass.jda.getGuildById(MainClass.MALOSH_ID).getMemberById(player2).getEffectiveName())
+	    c1.sendMessage(
+		    "Reply to this message with your pick, playing vs: " + getMemberById(player2).getEffectiveName())
 		    .queue(message -> {
 			message.addReaction("🪨").queue();
 			message.addReaction("📄").queue();
@@ -172,8 +169,8 @@ public class RockPaperScissors extends ListenerAdapter {
 		    });
 
 	    PrivateChannel c2 = MainClass.jda.getUserById(player2).openPrivateChannel().complete();
-	    c2.sendMessage("Reply to this message with your pick, playing vs: "
-		    + MainClass.jda.getGuildById(MainClass.MALOSH_ID).getMemberById(player1).getEffectiveName())
+	    c2.sendMessage(
+		    "Reply to this message with your pick, playing vs: " + getMemberById(player1).getEffectiveName())
 		    .queue(message -> {
 			message.addReaction("🪨").queue();
 			message.addReaction("📄").queue();
@@ -197,7 +194,7 @@ public class RockPaperScissors extends ListenerAdapter {
 		}
 
 		if (db.transfer(player2, player1, amount))
-		    outMessage += tagMember(player1) + " won: **" + amount + MainClass.coin + "**";
+		    outMessage += tagMember(player1) + " won: **" + amount + coin + "**";
 		else
 		    outMessage += tagMember(player2) + " can't pay :(";
 	    }

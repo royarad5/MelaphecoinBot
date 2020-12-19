@@ -1,10 +1,13 @@
 package commands;
 
+import static main.MainClass.coin;
+import static main.MainClass.tagMember;
+
+import java.util.Random;
+
 import database.Database;
-import main.MainClass;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
-import java.util.Random;
 
 public class Roulette extends ListenerAdapter {
 
@@ -26,17 +29,17 @@ public class Roulette extends ListenerAdapter {
 	if (parts.length > 2) {
 	    int bet = Integer.parseInt(parts[1]);
 	    if (database.subtract(event.getMember().getIdLong(), bet) == -1) {
-		event.getChannel().sendMessage(tagMember(event, memberId) + " Insufficent funds").queue();
+		event.getChannel().sendMessage(tagMember(memberId) + " Insufficent funds").queue();
 	    } else {
 		int prize = roulette(event, parts[2], bet);
 		if (prize == -1)
-		    event.getChannel().sendMessage(tagMember(event, memberId) + " lost").queue();
+		    event.getChannel().sendMessage(tagMember(memberId) + " lost").queue();
 		else if (prize == -2)
-		    event.getChannel().sendMessage(tagMember(event, memberId) + " Please enter a valid color").queue();
+		    event.getChannel().sendMessage(tagMember( memberId) + " Please enter a valid color").queue();
 		else {
 		    event.getChannel()
 			    .sendMessage(
-				    tagMember(event, memberId) + " won: **" + (prize - bet) + MainClass.coin + "**")
+				    tagMember(memberId) + " won: **" + (prize - bet) + coin + "**")
 			    .queue();
 		    database.add(memberId, prize);
 		}
@@ -84,7 +87,4 @@ public class Roulette extends ListenerAdapter {
 	return -2;
     }
     
-    private String tagMember(MessageReceivedEvent event, long memberId) {
-	return event.getGuild().getMemberById(memberId).getAsMention();
-    }
 }
