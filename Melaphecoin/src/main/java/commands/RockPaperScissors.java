@@ -74,14 +74,14 @@ public class RockPaperScissors extends ListenerAdapter {
 		    games.add(new Game(player1, player2, amount, event.getChannel()));
 		    outMessage = "Started a game of rock paper scissors between: " + tagMember(player1) + " and "
 			    + tagMember(player2) + " for:** " + amount + coin + "**, waiting for: ?rps accept "
-			    + tagMember(player2);
+			    + tagMember(player1);
 
 		} else {
 		    canPlay = true;
 		    Game oldGame = games.remove(gameIndex);
 		    outMessage = "Replaced a game of rock paper scissors between: " + tagMember(player1) + " and "
 			    + tagMember(player2) + " for:** " + oldGame.amount + coin + "** with: **" + amount + coin
-			    + "**, waiting for: ?rps accept " + tagMember(player2);
+			    + "**, waiting for: ?rps accept " + tagMember(player1);
 		    games.add(new Game(player1, player2, amount, event.getChannel()));
 		}
 

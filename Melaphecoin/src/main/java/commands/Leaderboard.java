@@ -34,7 +34,6 @@ public class Leaderboard extends ListenerAdapter {
 	}
 
 	event.getChannel().sendMessage(outMessage).queue();
-	;
     }
 
 }

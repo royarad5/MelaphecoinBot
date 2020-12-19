@@ -19,6 +19,7 @@ import commands.Overview;
 import commands.PayToDebt;
 import commands.RockPaperScissors;
 import commands.Roulette;
+import commands.Sex;
 import commands.Transfer;
 import database.Database;
 import net.dv8tion.jda.api.JDA;
@@ -28,7 +29,7 @@ import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.requests.GatewayIntent;
-import passiveTasks.CountingToTax;
+import passiveTasks.CountingToFine;
 import passiveTasks.SelfDeletor;
 
 public class MainClass {
@@ -61,8 +62,9 @@ public class MainClass {
 	jda.addEventListener(new Loan());
 	jda.addEventListener(new PayToDebt());
 	jda.addEventListener(new Overview());
+	jda.addEventListener(new Sex());
 
-	jda.addEventListener(new CountingToTax());
+	jda.addEventListener(new CountingToFine());
 	jda.addEventListener(new SelfDeletor());
 	Database.database(); // boot the database
 
