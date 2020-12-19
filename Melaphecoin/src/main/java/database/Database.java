@@ -178,7 +178,7 @@ public class Database extends Thread {
 	    return -1;
 
 	add(memberId, amount);
-	debts.put(memberId, (int) (amount * 1.05));
+	debts.put(memberId, (int) (amount * 1.1));
 	updateDebts = true;
 
 	return 0;
@@ -191,7 +191,7 @@ public class Database extends Thread {
      * @return - maximum loan size
      */
     public int maxLoanSize(long memberId) {
-	return getBalance(memberId) * 3 + 500;
+	return (int) (getBalance(memberId) * 3.5f) + 100;
     }
 
     public int payToDebt(long memberId, int amount) {
@@ -317,8 +317,8 @@ public class Database extends Thread {
      */
     public int add(long memberId, int amount) {
 	validateMemberBalance(memberId);
-	taxAction(memberId, amount);
 	int newBalance = balances.get(memberId) + amount;
+	taxAction(memberId, amount);
 	balances.put(memberId, newBalance);
 	updateBalance = true;
 	return newBalance;

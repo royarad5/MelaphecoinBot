@@ -20,7 +20,7 @@ public class Help extends ListenerAdapter {
 	    + "?give *amount* @person - will give the person you tag a specific amount of money.\r\n" + "\r\n"
 	    + "?help - display this message.\r\n" + "\r\n"
 	    + "?leaderboard - print the top 5 richest members of the server\r\n" + "\r\n"
-	    + "?loan *amount* - take a loan for up to (500 + 3 * balance). You will return 5% extra. 10% of your income is taken until you return your loan\r\n"
+	    + "?loan *amount* - take a loan for up to (100 + 3.5 * balance). You will return 10% extra. 10% of your income is taken until you return your loan\r\n"
 	    + "\r\n" + "?overview - display your balance and your debt\r\n" + "\r\n"
 	    + "?paytodebt *amount* - pay given amount to fill your debt, excess money will be returned to your balance.\r\n"
 	    + "\r\n"
