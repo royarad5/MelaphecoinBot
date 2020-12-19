@@ -22,6 +22,11 @@ public class Transfer extends ListenerAdapter {
 	if (!msg.toLowerCase().startsWith("?give") && !msg.toLowerCase().startsWith("?transfer"))
 	    return;
 
+	if (Database.DATABASE.getDebtSize(event.getAuthor().getIdLong()) != 0) {
+	    event.getChannel().sendMessage("You can't transfer money while in debt").queue();
+	    return;
+	}
+
 	String[] parts = msg.split(" ");
 
 	try {
