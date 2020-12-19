@@ -24,7 +24,7 @@ public class Help extends ListenerAdapter {
     public void onMessageReceived(MessageReceivedEvent event) {
 	if (event.getMessage().getContentDisplay().toLowerCase().startsWith("?help")) {
 	    PrivateChannel c1 = event.getMember().getUser().openPrivateChannel().complete();
-	    c1.sendMessage(HELP_MESSAGE);
+	    c1.sendMessage(HELP_MESSAGE).queue();
 	}
     }
 

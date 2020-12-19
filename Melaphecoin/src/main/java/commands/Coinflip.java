@@ -75,7 +75,7 @@ public class Coinflip extends ListenerAdapter {
 
 			outMessage = "Placed a bet for: **" + amount + coin + "** between "
 				+ tagMember(player1) + " and " + tagMember(player2)
-				+ " waiting for: ?cf accept " + tagMember(player2);
+				+ " waiting for: ?cf accept " + tagMember(player1);
 		    } else {
 			CoinflipData placedFlip = flips.remove(flipIndex);
 			flips.add(new CoinflipData(player1, player2, amount));
@@ -83,7 +83,7 @@ public class Coinflip extends ListenerAdapter {
 			outMessage = "Replaced a bet between " + tagMember(player1) + " and "
 				+ tagMember(player2) + " for: **" + placedFlip.amount + coin
 				+ "** with: **" + amount + coin + "** waiting for: ?cf accept "
-				+ tagMember(player2);
+				+ tagMember(player1);
 			;
 		    }
 		}
