@@ -4,6 +4,7 @@ import static main.MainClass.coin;
 import static main.MainClass.getGuild;
 import static main.MainClass.getMemberById;
 import static main.MainClass.getUserById;
+import static main.MainClass.inGeneral;
 import static main.MainClass.tagMember;
 
 import java.util.ArrayList;
@@ -22,6 +23,8 @@ public class RockPaperScissors extends ListenerAdapter {
 
     @Override
     public void onMessageReceived(MessageReceivedEvent event) {
+	if (inGeneral(event))
+	    return;
 	// command syntax:
 	// ?rps amount @member
 	// in private chat with bot:

@@ -1,6 +1,7 @@
 package commands;
 
 import static main.MainClass.coin;
+import static main.MainClass.inGeneral;
 import static main.MainClass.tagMember;
 
 import database.Database;
@@ -11,6 +12,9 @@ public class Debt extends ListenerAdapter{
 
     @Override
     public void onMessageReceived(MessageReceivedEvent event) {
+	if (inGeneral(event))
+	    return;
+	
         if (event.getMessage().getContentDisplay().startsWith("?debt"))
             event.getChannel().sendMessage(tagMember(event.getAuthor().getIdLong()) + " has a debt of: **" + Database.database().getDebtSize(event.getAuthor().getIdLong()) + coin + "**").queue();
     }

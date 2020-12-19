@@ -1,6 +1,7 @@
 package commands;
 
 import static main.MainClass.coin;
+import static main.MainClass.inGeneral;
 import static main.MainClass.tagMember;
 
 import java.util.Random;
@@ -17,6 +18,8 @@ public class Roulette extends ListenerAdapter {
 
     @Override
     public void onMessageReceived(MessageReceivedEvent event) {
+	if (inGeneral(event))
+	    return;
 	// ?r amount colour
 	String msg = event.getMessage().getContentRaw();
 

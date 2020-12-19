@@ -1,5 +1,6 @@
 package commands;
 
+import static main.MainClass.inGeneral;
 import static main.MainClass.tagMember;
 
 import java.util.ArrayList;
@@ -15,6 +16,8 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter;
 public class Leaderboard extends ListenerAdapter {
     @Override
     public void onMessageReceived(MessageReceivedEvent event) {
+	if (inGeneral(event))
+	    return;
 	if (!event.getMessage().getContentDisplay().toLowerCase().startsWith("?leaderboard")
 		&& !event.getMessage().getContentDisplay().toLowerCase().startsWith("?lb"))
 	    return;
@@ -26,7 +29,7 @@ public class Leaderboard extends ListenerAdapter {
 	Collections.reverse(list);
 
 	String outMessage = "";
-	for (int i = 0; i < 5; i++) {
+	for (int i = 0; i < 5 && i < list.size(); i++) {
 	    outMessage += tagMember(list.get(i).getKey()) + ": " + list.get(i).getValue() + "\n";
 	}
 

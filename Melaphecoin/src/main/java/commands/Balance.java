@@ -1,6 +1,7 @@
 package commands;
 
 import static main.MainClass.coin;
+import static main.MainClass.inGeneral;
 import static main.MainClass.tagMember;
 
 import database.Database;
@@ -11,6 +12,9 @@ public class Balance extends ListenerAdapter {
 
     @Override
     public void onMessageReceived(MessageReceivedEvent event) {
+	if (inGeneral(event))
+	    return;
+
 	String msg = event.getMessage().getContentRaw();
 	if (!msg.toLowerCase().startsWith("?balance") && !msg.toLowerCase().startsWith("?bal")
 		&& !msg.toLowerCase().startsWith("?cash") && !msg.toLowerCase().startsWith("?money"))

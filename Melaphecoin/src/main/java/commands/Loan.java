@@ -9,6 +9,8 @@ import static main.MainClass.*;
 public class Loan extends ListenerAdapter {
     @Override
     public void onMessageReceived(MessageReceivedEvent event) {
+	if (inGeneral(event))
+	    return;
 	String msg = event.getMessage().getContentDisplay();
 	if (!msg.toLowerCase().startsWith("?loan"))
 	    return;

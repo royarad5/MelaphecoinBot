@@ -1,6 +1,7 @@
 package commands;
 
 import static main.MainClass.coin;
+import static main.MainClass.inGeneral;
 import static main.MainClass.tagMember;
 
 import java.util.Random;
@@ -13,7 +14,7 @@ public class DailySpin extends ListenerAdapter {
 
     private Database database = Database.database();
 
-    public void spinWheel(MessageReceivedEvent event) {
+    public void spinWheel(MessageReceivedEvent event) {	
 	long memberId = event.getMember().getIdLong();
 
 	Random rand = new Random();
@@ -43,6 +44,9 @@ public class DailySpin extends ListenerAdapter {
 
     @Override
     public void onMessageReceived(MessageReceivedEvent event) {
+	if (inGeneral(event))
+	    return;
+	
 	String msg = event.getMessage().getContentRaw();
 	if (!msg.toLowerCase().startsWith("?dailyspin") && !msg.toLowerCase().startsWith("?ds"))
 	    return;

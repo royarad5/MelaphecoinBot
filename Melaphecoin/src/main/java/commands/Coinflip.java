@@ -1,6 +1,7 @@
 package commands;
 
 import static main.MainClass.coin;
+import static main.MainClass.inGeneral;
 import static main.MainClass.tagMember;
 
 import java.util.ArrayList;
@@ -20,6 +21,9 @@ public class Coinflip extends ListenerAdapter {
 	// command structure: (?coinflip can be replaced with ?cf)
 	// ?coinflip amount @target
 	// ?coinflip accept @target
+	
+	if (inGeneral(event))
+	    return;
 
 	String msg = event.getMessage().getContentRaw();
 	if (!msg.toLowerCase().startsWith("?coinflip") && !msg.toLowerCase().startsWith("?cf"))

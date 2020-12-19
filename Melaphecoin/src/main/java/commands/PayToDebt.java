@@ -10,6 +10,8 @@ public class PayToDebt extends ListenerAdapter {
 
     @Override
     public void onMessageReceived(MessageReceivedEvent event) {
+	if (inGeneral(event))
+	    return;
 	String msg = event.getMessage().getContentDisplay();
 
 	if (!msg.toLowerCase().startsWith("?payToDebt") && !msg.toLowerCase().startsWith("?ptd"))
