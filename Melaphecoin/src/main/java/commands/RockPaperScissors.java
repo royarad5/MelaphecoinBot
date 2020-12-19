@@ -16,7 +16,11 @@ import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.events.message.priv.react.PrivateMessageReactionAddEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
-//TODO change print channel to ID
+/**
+ * plays a game of rock paper scissors on a set bet command syntax: ?rps
+ * amount @member in private chat with bot: react with emote to message from bot
+ * 
+ */
 public class RockPaperScissors extends ListenerAdapter {
 
     private final ArrayList<Game> games = new ArrayList<Game>();
@@ -25,10 +29,6 @@ public class RockPaperScissors extends ListenerAdapter {
     public void onMessageReceived(MessageReceivedEvent event) {
 	if (inGeneral(event))
 	    return;
-	// command syntax:
-	// ?rps amount @member
-	// in private chat with bot:
-	// react with emote to message from bot
 
 	String msg = event.getMessage().getContentRaw();
 	if (!msg.toLowerCase().startsWith("?rps"))
@@ -92,6 +92,7 @@ public class RockPaperScissors extends ListenerAdapter {
 
     @Override
     public void onPrivateMessageReactionAdd(PrivateMessageReactionAddEvent event) {
+	// take care of the reactions, which are the player's picks
 	long player1 = event.getUser().getIdLong();
 	if (player1 == 788841586262802452l) // the bot
 	    return;
@@ -121,6 +122,13 @@ public class RockPaperScissors extends ListenerAdapter {
 	    game.setPlayer2Choice(choice);
     }
 
+    /**
+     * Index of a game in the list
+     * 
+     * @param player1 - player1 id
+     * @param player2 - player2 id
+     * @return index, -1 if not in list
+     */
     private int indexOf(long player1, long player2) {
 	for (int i = 0; i < games.size(); i++) {
 	    if ((games.get(i).player1 == player1 && games.get(i).player2 == player2)
@@ -130,6 +138,9 @@ public class RockPaperScissors extends ListenerAdapter {
 	return -1;
     }
 
+    /**
+     * Holder object for a rock paper scissors game
+     */
     private class Game {
 	public long player1;
 	public long player2;
@@ -151,6 +162,11 @@ public class RockPaperScissors extends ListenerAdapter {
 	    player2Choice = -1;
 	}
 
+	/**
+	 * Set the choice for player1
+	 * 
+	 * @param player1Choice 0/1/2 - rock/paper/scissors
+	 */
 	public void setPlayer1Choice(int player1Choice) {
 	    if (this.player1Choice != -1)
 		return;
@@ -160,6 +176,11 @@ public class RockPaperScissors extends ListenerAdapter {
 		processGame();
 	}
 
+	/**
+	 * Set the choice for player2
+	 * 
+	 * @param player1Choice 0/1/2 - rock/paper/scissors
+	 */
 	public void setPlayer2Choice(int player2Choice) {
 	    if (this.player2Choice != -1)
 		return;
@@ -169,6 +190,9 @@ public class RockPaperScissors extends ListenerAdapter {
 		processGame();
 	}
 
+	/**
+	 * Starts the game, sends the private messages to the players
+	 */
 	public void startGame() {
 	    PrivateChannel c1 = getUserById(player1).openPrivateChannel().complete();
 	    c1.sendMessage(
@@ -189,6 +213,9 @@ public class RockPaperScissors extends ListenerAdapter {
 		    });
 	}
 
+	/**
+	 * Decides the winner and acts accordingly
+	 */
 	private void processGame() {
 	    Database db = Database.database();
 	    String outMessage = tagMember(player1) + " picked: " + choiceToString(player1Choice) + " "
@@ -214,6 +241,12 @@ public class RockPaperScissors extends ListenerAdapter {
 	    games.remove(indexOf(player1, player2));
 	}
 
+	/**
+	 * Converts string of choice to number
+	 * 
+	 * @param choice - rock/paper/scissors
+	 * @return 0/1/2
+	 */
 	private String choiceToString(int choice) {
 	    switch (choice) {
 	    case 0:

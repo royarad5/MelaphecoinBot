@@ -8,6 +8,10 @@ import database.Database;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
+/**
+ * transfers money from one member to another syntax: ?give amount also:
+ * ?transfer
+ */
 public class Transfer extends ListenerAdapter {
 
     @Override

@@ -6,6 +6,9 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
 import static main.MainClass.*;
 
+/**
+ * pays to fill the member's debt syntax: ?ptd *amount* also: ?paytodebt
+ */
 public class PayToDebt extends ListenerAdapter {
 
     @Override

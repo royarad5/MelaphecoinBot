@@ -6,6 +6,10 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
 import static main.MainClass.*;
 
+/**
+ * takes a loan syntax: ?loan *amount*
+ * 
+ */
 public class Loan extends ListenerAdapter {
     @Override
     public void onMessageReceived(MessageReceivedEvent event) {

@@ -15,15 +15,17 @@ import java.util.Map.Entry;
 import java.util.TimeZone;
 import java.util.concurrent.ConcurrentHashMap;
 
+/**
+ * holds a representation of the database
+ */
 public class Database extends Thread {
 
     // TODO save backups
-    // TODO save function can be simplefied
 
     private static final String BALANCE_FILE = "C:\\Users\\almog\\Desktop\\balance.txt";
     private static final String DAILY_SPIN_FILE = "C:\\Users\\almog\\Desktop\\daily spin.txt";
     private static final String DEBTS_FILE = "C:\\Users\\almog\\Desktop\\debts.txt";
-    private static final long BACKUP_CYCLE_TIME = 1 * 60000; // 1 minute
+    private static final long BACKUP_CYCLE_TIME = 10 * 60000; // 10 minutes
 
     private static final int STARTING_BALANCE = 100;
 
@@ -89,6 +91,9 @@ public class Database extends Thread {
 	}
     }
 
+    /**
+     * saves the hashmaps to their respective files
+     */
     private void save() {
 	if (updateBalance) {
 	    String dataToWrite = "";
@@ -143,6 +148,9 @@ public class Database extends Thread {
 	}
     }
 
+    /**
+     * forces to save everything to the files
+     */
     public void forceSave() {
 	updateBalance = true;
 	updateDailySpin = true;
@@ -176,6 +184,12 @@ public class Database extends Thread {
 	return 0;
     }
 
+    /**
+     * return the max loan size that a given member can take
+     * 
+     * @param memberId - target member
+     * @return - maximum loan size
+     */
     public int maxLoanSize(long memberId) {
 	return getBalance(memberId) * 3 + 500;
     }
@@ -194,11 +208,24 @@ public class Database extends Thread {
 	return payment;
     }
 
+    /**
+     * returns the given member's debt
+     * 
+     * @param memberId - target member
+     * @return - debt
+     */
     public int getDebtSize(long memberId) {
 	validateDebt(memberId);
 	return debts.get(memberId);
     }
 
+    /**
+     * takes a 10% tax from the income action
+     * 
+     * @param memberId - member to tax
+     * @param amount   - amount of money before taxation
+     * @return - taxes paid
+     */
     private int taxAction(long memberId, int amount) {
 	if (getDebtSize(memberId) > 0) {
 	    payToDebt(memberId, (int) (amount * 0.1));
@@ -207,6 +234,11 @@ public class Database extends Thread {
 	return 0;
     }
 
+    /**
+     * makes sure that the member is inside the map
+     * 
+     * @param memberId - member to validate
+     */
     private void validateDebt(long memberId) {
 	if (!debts.containsKey(memberId)) {
 	    updateDebts = true;
@@ -246,6 +278,9 @@ public class Database extends Thread {
 	return unixTimeStamp > dailySpins.get(memberId);
     }
 
+    /**
+     * @return a copy of the balances hashmap
+     */
     public ConcurrentHashMap<Long, Integer> getBalances() {
 	return new ConcurrentHashMap<Long, Integer>(balances);
     }
@@ -307,7 +342,7 @@ public class Database extends Thread {
 	int newBalance = balance - amount;
 	balances.put(memberId, newBalance);
 	updateBalance = true;
-	
+
 	return newBalance;
     }
 

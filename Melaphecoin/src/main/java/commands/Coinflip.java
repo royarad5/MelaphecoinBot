@@ -10,6 +10,11 @@ import database.Database;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
+/**
+ * places a bet on a coinflip between 2 players command structure: (?coinflip
+ * can be replaced with ?cf) ?coinflip amount @target ?coinflip accept @target
+ * 
+ */
 public class Coinflip extends ListenerAdapter {
 
     private Database database = Database.database();
@@ -17,11 +22,7 @@ public class Coinflip extends ListenerAdapter {
     private final ArrayList<CoinflipData> flips = new ArrayList<CoinflipData>();
 
     @Override
-    public void onMessageReceived(MessageReceivedEvent event) {
-	// command structure: (?coinflip can be replaced with ?cf)
-	// ?coinflip amount @target
-	// ?coinflip accept @target
-	
+    public void onMessageReceived(MessageReceivedEvent event) {	
 	if (inGeneral(event))
 	    return;
 

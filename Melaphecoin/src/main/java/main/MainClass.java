@@ -32,6 +32,9 @@ import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import passiveTasks.CountingToFine;
 
+/**
+ * class containing the main method, also contains helper function and variables
+ */
 public class MainClass {
 
     private static final String TOKEN_FILE = "C:\\Users\\almog\\Desktop\\token.txt";

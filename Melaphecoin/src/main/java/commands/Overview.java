@@ -8,6 +8,9 @@ import database.Database;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
+/**
+ * shows the member's balance and debt syntax: ?ov / ?overview
+ */
 public class Overview extends ListenerAdapter {
 
     @Override

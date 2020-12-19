@@ -13,6 +13,10 @@ import database.Database;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
+/**
+ * top 5 richest members syntax: ?lb / ?leaderboard
+ * 
+ */
 public class Leaderboard extends ListenerAdapter {
     @Override
     public void onMessageReceived(MessageReceivedEvent event) {
@@ -21,7 +25,7 @@ public class Leaderboard extends ListenerAdapter {
 	if (!event.getMessage().getContentDisplay().toLowerCase().startsWith("?leaderboard")
 		&& !event.getMessage().getContentDisplay().toLowerCase().startsWith("?lb"))
 	    return;
-	
+
 	ConcurrentHashMap<Long, Integer> balances = Database.database().getBalances();
 
 	List<Entry<Long, Integer>> list = new ArrayList<>(balances.entrySet());

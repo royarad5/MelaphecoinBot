@@ -8,6 +8,12 @@ import database.Database;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
+/**
+ * display a member's balance, if no member is tagged it will display the
+ * calling member's balance command syntax: ?bal/?bal @person alternatives:
+ * ?balance ?cash ?money
+ *
+ */
 public class Balance extends ListenerAdapter {
 
     @Override

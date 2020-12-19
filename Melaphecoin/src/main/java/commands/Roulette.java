@@ -10,6 +10,11 @@ import database.Database;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
+/**
+ * places a bet and spins the roulette syntax: ?rt amount color also: ?roulette
+ * colors: b/black/r/red/g/green
+ * 
+ */
 public class Roulette extends ListenerAdapter {
 
     private Database database = Database.database();
@@ -20,12 +25,12 @@ public class Roulette extends ListenerAdapter {
     public void onMessageReceived(MessageReceivedEvent event) {
 	if (inGeneral(event))
 	    return;
-	// ?r amount colour
+
 	String msg = event.getMessage().getContentRaw();
 
 	if (!msg.toLowerCase().startsWith("?roulette") && !msg.toLowerCase().startsWith("?rt"))
 	    return;
-	
+
 	long memberId = event.getMember().getIdLong();
 	String[] parts = msg.split(" ");
 
@@ -33,12 +38,12 @@ public class Roulette extends ListenerAdapter {
 
 	    if (parts.length > 2) {
 		int bet = Integer.parseInt(parts[1]);
-		
+
 		if (bet < 0) {
 		    event.getChannel().sendMessage("Please enter a positive number").queue();
 		    return;
 		}
-		
+
 		if (database.subtract(event.getMember().getIdLong(), bet) == -1) {
 		    event.getChannel().sendMessage(tagMember(memberId) + " Insufficent funds").queue();
 		} else {
@@ -48,11 +53,9 @@ public class Roulette extends ListenerAdapter {
 				.queue();
 		    else if (prize == -2) {
 			event.getChannel().sendMessage(tagMember(memberId) + " Please enter a valid color").queue();
-			database.add(event.getMember().getIdLong(), bet); //undo the payment
-		    }
-		    else {
-			event.getChannel().sendMessage(tagMember(memberId) + " won: **" + prize + coin + "**")
-				.queue();
+			database.add(event.getMember().getIdLong(), bet); // undo the payment
+		    } else {
+			event.getChannel().sendMessage(tagMember(memberId) + " won: **" + prize + coin + "**").queue();
 			database.add(memberId, prize);
 		    }
 		}
@@ -63,6 +66,14 @@ public class Roulette extends ListenerAdapter {
 
     }
 
+    /**
+     * Spin and print the roulette
+     * 
+     * @param event - event from calling function
+     * @param color - the color that the player picked
+     * @param bet   - the amount that the player bet
+     * @return -2 - invalid color, -1 - lost, else - winnings
+     */
     public int roulette(MessageReceivedEvent event, String color, int bet) {
 	if (!"green".equalsIgnoreCase(color) && !"g".equalsIgnoreCase(color) && !"black".equalsIgnoreCase(color)
 		&& !"b".equalsIgnoreCase(color) && !"red".equalsIgnoreCase(color) && !"r".equalsIgnoreCase(color))

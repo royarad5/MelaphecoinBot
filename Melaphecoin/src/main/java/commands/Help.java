@@ -6,6 +6,9 @@ import net.dv8tion.jda.api.entities.PrivateChannel;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
+/**
+ * description and syntax of all of the commands syntax: ?help
+ */
 public class Help extends ListenerAdapter {
 
     private static final String HELP_MESSAGE = "```?balance - will show you the balance in your account.\r\n" + "\r\n"

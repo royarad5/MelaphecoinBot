@@ -6,6 +6,9 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
 import static main.MainClass.*;
 
+/**
+ * tracks the fines for typing text in the counting to 20,000 text channel
+ */
 public class CountingToFine extends ListenerAdapter {
 
     private static final int FINE = 50;
@@ -34,6 +37,12 @@ public class CountingToFine extends ListenerAdapter {
 
     }
 
+    /**
+     * Check is the string is a number
+     * 
+     * @param num - string to test
+     * @return true/false if the strign is a number
+     */
     private static boolean isNumber(String num) {
 	try {
 	    Integer.valueOf(num);
