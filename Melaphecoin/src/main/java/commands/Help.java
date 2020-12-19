@@ -1,5 +1,6 @@
 package commands;
 
+import net.dv8tion.jda.api.entities.PrivateChannel;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
@@ -21,9 +22,10 @@ public class Help extends ListenerAdapter {
 
     @Override
     public void onMessageReceived(MessageReceivedEvent event) {
-	if (event.getMessage().getContentDisplay().toLowerCase().startsWith("?help"))
-	    event.getChannel().sendMessage(HELP_MESSAGE).queue();
-
+	if (event.getMessage().getContentDisplay().toLowerCase().startsWith("?help")) {
+	    PrivateChannel c1 = event.getMember().getUser().openPrivateChannel().complete();
+	    c1.sendMessage(HELP_MESSAGE);
+	}
     }
 
 }

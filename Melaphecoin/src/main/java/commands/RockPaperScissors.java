@@ -1,11 +1,14 @@
 package commands;
 
-import static main.MainClass.*;
+import static main.MainClass.coin;
+import static main.MainClass.getGuild;
+import static main.MainClass.getMemberById;
+import static main.MainClass.getUserById;
+import static main.MainClass.tagMember;
 
 import java.util.ArrayList;
 
 import database.Database;
-import main.MainClass;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.PrivateChannel;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
@@ -159,7 +162,7 @@ public class RockPaperScissors extends ListenerAdapter {
 	}
 
 	public void startGame() {
-	    PrivateChannel c1 = MainClass.jda.getUserById(player1).openPrivateChannel().complete();
+	    PrivateChannel c1 = getUserById(player1).openPrivateChannel().complete();
 	    c1.sendMessage(
 		    "Reply to this message with your pick, playing vs: " + getMemberById(player2).getEffectiveName())
 		    .queue(message -> {
@@ -168,7 +171,7 @@ public class RockPaperScissors extends ListenerAdapter {
 			message.addReaction("✂️").queue();
 		    });
 
-	    PrivateChannel c2 = MainClass.jda.getUserById(player2).openPrivateChannel().complete();
+	    PrivateChannel c2 = getUserById(player2).openPrivateChannel().complete();
 	    c2.sendMessage(
 		    "Reply to this message with your pick, playing vs: " + getMemberById(player1).getEffectiveName())
 		    .queue(message -> {
