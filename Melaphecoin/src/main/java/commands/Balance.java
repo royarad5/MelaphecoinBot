@@ -13,10 +13,10 @@ public class Balance extends ListenerAdapter {
     @Override
     public void onMessageReceived(MessageReceivedEvent event) {
 	String msg = event.getMessage().getContentRaw();
-	if (!msg.toLowerCase().startsWith("?balance") && !msg.toLowerCase().startsWith("?bal") && !msg.toLowerCase().startsWith("?cash")
-		&& !msg.toLowerCase().startsWith("?money"))
+	if (!msg.toLowerCase().startsWith("?balance") && !msg.toLowerCase().startsWith("?bal")
+		&& !msg.toLowerCase().startsWith("?cash") && !msg.toLowerCase().startsWith("?money"))
 	    return;
-	
+
 	deleteMessage(event.getChannel().getIdLong(), event.getMessage().getIdLong());
 
 	String[] parts = msg.split(" ");
@@ -26,7 +26,6 @@ public class Balance extends ListenerAdapter {
 	    member = Long.valueOf(parts[1].substring(3, parts[1].length() - 1));
 
 	event.getChannel()
-		.sendMessage(tagMember(member) + ": **" + Database.database().getBalance(member) + "**" + coin)
-		.queue();
+		.sendMessage(tagMember(member) + ": **" + Database.database().getBalance(member) + "**" + coin).queue();
     }
 }

@@ -10,9 +10,13 @@ import javax.security.auth.login.LoginException;
 import commands.Balance;
 import commands.Coinflip;
 import commands.DailySpin;
+import commands.Debt;
 import commands.ForceSave;
 import commands.Help;
 import commands.Leaderboard;
+import commands.Loan;
+import commands.Overview;
+import commands.PayToDebt;
 import commands.RockPaperScissors;
 import commands.Roulette;
 import commands.Transfer;
@@ -53,7 +57,11 @@ public class MainClass {
 	jda.addEventListener(new ForceSave());
 	jda.addEventListener(new Help());
 	jda.addEventListener(new Leaderboard());
-	
+	jda.addEventListener(new Debt());
+	jda.addEventListener(new Loan());
+	jda.addEventListener(new PayToDebt());
+	jda.addEventListener(new Overview());
+
 	jda.addEventListener(new CountingToTax());
 	jda.addEventListener(new SelfDeletor());
 	Database.database(); // boot the database

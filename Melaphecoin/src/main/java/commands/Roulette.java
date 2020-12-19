@@ -33,6 +33,12 @@ public class Roulette extends ListenerAdapter {
 
 	    if (parts.length > 2) {
 		int bet = Integer.parseInt(parts[1]);
+		
+		if (bet < 0) {
+		    event.getChannel().sendMessage("Please enter a positive number").queue();
+		    return;
+		}
+		
 		if (database.subtract(event.getMember().getIdLong(), bet) == -1) {
 		    event.getChannel().sendMessage(tagMember(memberId) + " Insufficent funds").queue();
 		} else {
@@ -45,7 +51,7 @@ public class Roulette extends ListenerAdapter {
 			database.add(event.getMember().getIdLong(), bet); //undo the payment
 		    }
 		    else {
-			event.getChannel().sendMessage(tagMember(memberId) + " won: **" + (prize - bet) + coin + "**")
+			event.getChannel().sendMessage(tagMember(memberId) + " won: **" + prize + coin + "**")
 				.queue();
 			database.add(memberId, prize);
 		    }

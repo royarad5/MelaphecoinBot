@@ -31,7 +31,7 @@ public class RockPaperScissors extends ListenerAdapter {
 	String msg = event.getMessage().getContentRaw();
 	if (!msg.toLowerCase().startsWith("?rps"))
 	    return;
-	
+
 	deleteMessage(event.getChannel().getIdLong(), event.getMessage().getIdLong());
 
 	String[] parts = msg.split(" ");
@@ -54,6 +54,11 @@ public class RockPaperScissors extends ListenerAdapter {
 	} else {
 
 	    int amount = Integer.valueOf(parts[1]);
+
+	    if (amount < 0) {
+		event.getChannel().sendMessage("Please enter a positive number").queue();
+		return;
+	    }
 
 	    Database db = Database.database();
 	    boolean canPlay = false;

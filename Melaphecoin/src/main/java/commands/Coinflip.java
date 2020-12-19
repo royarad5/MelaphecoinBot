@@ -63,6 +63,11 @@ public class Coinflip extends ListenerAdapter {
 		long player1 = event.getMember().getIdLong();
 		long player2 = Long.valueOf(parts[2].substring(3, parts[2].length() - 1));
 		int amount = Integer.valueOf(parts[1]);
+		
+		if (amount < 0) {
+		    event.getChannel().sendMessage("Please enter a positive number").queue();
+		    return;
+		}
 
 		if (database.getBalance(player1) < amount)
 		    outMessage = tagMember(player1) + " can't afford a bet of: **" + amount + coin

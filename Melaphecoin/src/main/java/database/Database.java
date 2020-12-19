@@ -22,6 +22,7 @@ public class Database extends Thread {
 
     private static final String BALANCE_FILE = "C:\\Users\\almog\\Desktop\\balance.txt";
     private static final String DAILY_SPIN_FILE = "C:\\Users\\almog\\Desktop\\daily spin.txt";
+    private static final String DEBTS_FILE = "C:\\Users\\almog\\Desktop\\debts.txt";
     private static final long BACKUP_CYCLE_TIME = 1 * 60000; // 1 minute
 
     private static final int STARTING_BALANCE = 100;
@@ -30,14 +31,18 @@ public class Database extends Thread {
 
     private final ConcurrentHashMap<Long, Integer> balances;
     private final ConcurrentHashMap<Long, Long> dailySpins;
+    private final ConcurrentHashMap<Long, Integer> debts;
     private boolean updateBalance;
     private boolean updateDailySpin;
+    private boolean updateDebts;
 
     private Database() {
 	balances = new ConcurrentHashMap<Long, Integer>();
 	dailySpins = new ConcurrentHashMap<Long, Long>();
+	debts = new ConcurrentHashMap<Long, Integer>();
 	updateBalance = false;
 	updateDailySpin = false;
+	updateDebts = false;
 
 	List<String> lines = null;
 	try {
@@ -58,6 +63,16 @@ public class Database extends Thread {
 	for (String line : lines) {
 	    String[] parts = line.split("-");
 	    dailySpins.put(Long.valueOf(parts[0]), Long.valueOf(parts[1]));
+	}
+	// ---------------------------------------------------------------------------
+	try {
+	    lines = Files.readAllLines(new File(DEBTS_FILE).toPath(), Charset.defaultCharset());
+	} catch (IOException ignored) {
+	}
+
+	for (String line : lines) {
+	    String[] parts = line.split("-");
+	    debts.put(Long.valueOf(parts[0]), Integer.valueOf(parts[1]));
 	}
 
 	start();
@@ -109,12 +124,94 @@ public class Database extends Thread {
 
 	    updateBalance = false;
 	}
+	if (updateDebts) {
+	    String dataToWrite = "";
+
+	    Iterator<Entry<Long, Integer>> iterator = debts.entrySet().iterator();
+	    while (iterator.hasNext()) {
+		Entry<Long, Integer> pair = iterator.next();
+		dataToWrite += String.valueOf(pair.getKey()) + "-" + String.valueOf(pair.getValue()) + "\n";
+	    }
+
+	    try (Writer writer = new BufferedWriter(
+		    new OutputStreamWriter(new FileOutputStream(DEBTS_FILE), "utf-8"))) {
+		writer.write(dataToWrite);
+	    } catch (IOException ignored) {
+	    }
+
+	    updateDebts = false;
+	}
     }
-    
+
     public void forceSave() {
 	updateBalance = true;
 	updateDailySpin = true;
+	updateDebts = true;
 	save();
+    }
+
+    /**
+     * Takes a loan for the given member, loan can only be a maximum of (balance * 3
+     * + 500)
+     * 
+     * loan is returned with 105% of the amount of money taken
+     * 
+     * @param memberId - member to take the loan for
+     * @param amount   - loan size
+     * @return positiveInteger - current loan size, -1 - can't afford loan, 0 -
+     *         success
+     */
+    public int takeLoan(long memberId, int amount) {
+	validateDebt(memberId);
+	validateMemberBalance(memberId);
+	if (debts.get(memberId) > 0)
+	    return debts.get(memberId);
+	if (amount > maxLoanSize(memberId))
+	    return -1;
+
+	add(memberId, amount);
+	debts.put(memberId, (int) (amount * 1.05));
+	updateDebts = true;
+
+	return 0;
+    }
+
+    public int maxLoanSize(long memberId) {
+	return getBalance(memberId) * 3 + 500;
+    }
+
+    public int payToDebt(long memberId, int amount) {
+	validateDebt(memberId);
+	int debt = getDebtSize(memberId);
+
+	int payment = amount > debt ? debt : amount;
+
+	subtract(memberId, payment);
+	debts.put(memberId, debt - payment);
+
+	updateDebts = true;
+
+	return payment;
+    }
+
+    public int getDebtSize(long memberId) {
+	validateDebt(memberId);
+	return debts.get(memberId);
+    }
+
+    private int taxAction(long memberId, int amount) {
+	if (getDebtSize(memberId) > 0) {
+	    payToDebt(memberId, (int) (amount * 0.1));
+	    return (int) (amount * 0.1);
+	}
+	return 0;
+    }
+
+    private void validateDebt(long memberId) {
+	if (!debts.containsKey(memberId)) {
+	    updateDebts = true;
+	    debts.put(memberId, 0);
+	}
     }
 
     /**
@@ -149,10 +246,10 @@ public class Database extends Thread {
 	return unixTimeStamp > dailySpins.get(memberId);
     }
 
-    public ConcurrentHashMap<Long, Integer> getBalances(){
+    public ConcurrentHashMap<Long, Integer> getBalances() {
 	return new ConcurrentHashMap<Long, Integer>(balances);
     }
-    
+
     /**
      * Sets the balance of a member to the given balance
      * 
@@ -185,6 +282,7 @@ public class Database extends Thread {
      */
     public int add(long memberId, int amount) {
 	validateMemberBalance(memberId);
+	taxAction(memberId, amount);
 	int newBalance = balances.get(memberId) + amount;
 	balances.put(memberId, newBalance);
 	updateBalance = true;
@@ -209,6 +307,7 @@ public class Database extends Thread {
 	int newBalance = balance - amount;
 	balances.put(memberId, newBalance);
 	updateBalance = true;
+	
 	return newBalance;
     }
 

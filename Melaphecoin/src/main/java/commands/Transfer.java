@@ -15,7 +15,7 @@ public class Transfer extends ListenerAdapter {
 	String msg = event.getMessage().getContentRaw();
 	if (!msg.toLowerCase().startsWith("?give") && !msg.toLowerCase().startsWith("?transfer"))
 	    return;
-	
+
 	deleteMessage(event.getChannel().getIdLong(), event.getMessage().getIdLong());
 
 	String[] parts = msg.split(" ");
@@ -24,6 +24,11 @@ public class Transfer extends ListenerAdapter {
 	    int amount = Integer.valueOf(parts[1]);
 	    long target = Long.valueOf(parts[2].substring(3, parts[2].length() - 1));
 	    long giver = event.getMember().getIdLong();
+
+	    if (amount < 0) {
+		event.getChannel().sendMessage("Please enter a positive number").queue();
+		return;
+	    }
 
 	    if (Database.database().transfer(giver, target, amount))
 		event.getChannel().sendMessage("Transferred: **" + amount + coin + "** from: " + tagMember(giver)
