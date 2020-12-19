@@ -11,6 +11,7 @@ import commands.Balance;
 import commands.Coinflip;
 import commands.DailySpin;
 import commands.ForceSave;
+import commands.Help;
 import commands.RockPaperScissors;
 import commands.Roulette;
 import commands.Transfer;
@@ -41,6 +42,7 @@ public class MainClass {
 	jda.addEventListener(new Roulette());
 	jda.addEventListener(new Transfer());
 	jda.addEventListener(new ForceSave());
+	jda.addEventListener(new Help());
 	Database.database(); // boot the database
 
 	jda.awaitReady();

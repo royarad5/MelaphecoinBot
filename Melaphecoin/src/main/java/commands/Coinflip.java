@@ -60,9 +60,11 @@ public class Coinflip extends ListenerAdapter {
 		int amount = Integer.valueOf(parts[1]);
 
 		if (database.read(player1) < amount)
-		    outMessage = tagMember(event, player1) + " can't afford a bet of: **" + amount + MainClass.coin + "**";
+		    outMessage = tagMember(event, player1) + " can't afford a bet of: **" + amount + MainClass.coin
+			    + "**";
 		else if (database.read(player2) < amount)
-		    outMessage = tagMember(event, player2) + " can't afford a bet of: **" + amount + MainClass.coin + "**";
+		    outMessage = tagMember(event, player2) + " can't afford a bet of: **" + amount + MainClass.coin
+			    + "**";
 		else {
 
 		    int flipIndex = indexOf(player1, player2);
@@ -70,14 +72,17 @@ public class Coinflip extends ListenerAdapter {
 			flips.add(new CoinflipData(player1, player2, amount));
 
 			outMessage = "Placed a bet for: **" + amount + MainClass.coin + "** between "
-				+ tagMember(event, player1) + " and " + tagMember(event, player2);
+				+ tagMember(event, player1) + " and " + tagMember(event, player2)
+				+ " waiting for: ?cf accept " + tagMember(event, player2);
 		    } else {
 			CoinflipData placedFlip = flips.remove(flipIndex);
 			flips.add(new CoinflipData(player1, player2, amount));
 
 			outMessage = "Replaced a bet between " + tagMember(event, player1) + " and "
 				+ tagMember(event, player2) + " for: **" + placedFlip.amount + MainClass.coin
-				+ "** with: **" + amount + MainClass.coin + "**";
+				+ "** with: **" + amount + MainClass.coin + "** waiting for: ?cf accept "
+				+ tagMember(event, player2);
+			;
 		    }
 		}
 	    }

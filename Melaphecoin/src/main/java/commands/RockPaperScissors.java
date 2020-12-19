@@ -32,50 +32,47 @@ public class RockPaperScissors extends ListenerAdapter {
 
 	String outMessage = "";
 
-	int amount = Integer.valueOf(parts[1]);
 	long player1 = event.getMember().getIdLong();
 	long player2 = Long.valueOf(parts[2].substring(3, parts[2].length() - 1));
 	int gameIndex = indexOf(player1, player2);
 
-	Database db = Database.database();
-	boolean canPlay = false;
-
-	if (db.read(player1) < amount)
-	    outMessage = tagMember(player1) + " can't afford a bet of: **" + amount + MainClass.coin + "**";
-	else if (db.read(player2) < amount)
-	    outMessage = tagMember(player2) + " can't afford a bet of: **" + amount + MainClass.coin + "**";
-	else
-	    canPlay = true;
-	if (canPlay) {
-	    if (gameIndex == -1) {
-		games.add(new Game(player1, player2, amount, event.getChannel()));
-		outMessage = "Started a game of rock paper scissors between: " + tagMember(event, player1) + " and "
-			+ tagMember(event, player2) + " for:** " + amount + MainClass.coin + "**";
-
-	    } else {
-		canPlay = true;
-		Game oldGame = games.remove(gameIndex);
-		outMessage = "Replaced a game of rock paper scissors between: " + tagMember(event, player1) + " and "
-			+ tagMember(event, player2) + " for:** " + oldGame.amount + MainClass.coin + "** with: **"
-			+ amount + MainClass.coin + "**";
-		games.add(new Game(player1, player2, amount, event.getChannel()));
+	if ("accept".equalsIgnoreCase(parts[1])) {
+	    if (gameIndex == -1)
+		outMessage = "There is no game to start!";
+	    else {
+		games.get(gameIndex).startGame();
+		outMessage = "Started a game between: " + tagMember(player1) + " and: " + tagMember(player2);
 	    }
+	} else {
 
-	    PrivateChannel c1 = event.getMember().getUser().openPrivateChannel().complete();
-	    c1.sendMessage("Reply to this message with your pick, playing vs: "
-		    + event.getGuild().getMemberById(player2).getEffectiveName()).queue(message -> {
-			message.addReaction("🪨").queue();
-			message.addReaction("📄").queue();
-			message.addReaction("✂️").queue();
-		    });
+	    int amount = Integer.valueOf(parts[1]);
 
-	    PrivateChannel c2 = event.getJDA().getUserById(player2).openPrivateChannel().complete();
-	    c2.sendMessage("Reply to this message with your pick, playing vs: "
-		    + event.getGuild().getMemberById(player1).getEffectiveName()).queue(message -> {
-			message.addReaction("🪨").queue();
-			message.addReaction("📄").queue();
-			message.addReaction("✂️").queue();
-		    });
+	    Database db = Database.database();
+	    boolean canPlay = false;
+
+	    if (db.read(player1) < amount)
+		outMessage = tagMember(player1) + " can't afford a bet of: **" + amount + MainClass.coin + "**";
+	    else if (db.read(player2) < amount)
+		outMessage = tagMember(player2) + " can't afford a bet of: **" + amount + MainClass.coin + "**";
+	    else
+		canPlay = true;
+	    if (canPlay) {
+		if (gameIndex == -1) {
+		    games.add(new Game(player1, player2, amount, event.getChannel()));
+		    outMessage = "Started a game of rock paper scissors between: " + tagMember(player1) + " and "
+			    + tagMember(player2) + " for:** " + amount + MainClass.coin
+			    + "**, waiting for: ?rps accept " + tagMember(player2);
+
+		} else {
+		    canPlay = true;
+		    Game oldGame = games.remove(gameIndex);
+		    outMessage = "Replaced a game of rock paper scissors between: " + tagMember(player1) + " and "
+			    + tagMember(player2) + " for:** " + oldGame.amount + MainClass.coin + "** with: **" + amount
+			    + MainClass.coin + "**, waiting for: ?rps accept " + tagMember(player2);
+		    games.add(new Game(player1, player2, amount, event.getChannel()));
+		}
+
+	    }
 	}
 	event.getChannel().sendMessage(outMessage).queue();
     }
@@ -121,17 +118,6 @@ public class RockPaperScissors extends ListenerAdapter {
 	return -1;
     }
 
-    /**
-     * Returns the string required to tag a member (@someone)
-     * 
-     * @param event    - event to get the guild from
-     * @param memberId - member to tag
-     * @return - the string literal to tag someone
-     */
-    private String tagMember(MessageReceivedEvent event, long memberId) {
-	return event.getGuild().getMemberById(memberId).getAsMention();
-    }
-
     private String tagMember(long memberId) {
 	return MainClass.jda.getGuildById(MainClass.MALOSH_ID).getMemberById(memberId).getAsMention();
     }
@@ -173,6 +159,26 @@ public class RockPaperScissors extends ListenerAdapter {
 
 	    if (player1Choice != -1)
 		processGame();
+	}
+
+	public void startGame() {
+	    PrivateChannel c1 = MainClass.jda.getUserById(player1).openPrivateChannel().complete();
+	    c1.sendMessage("Reply to this message with your pick, playing vs: "
+		    + MainClass.jda.getGuildById(MainClass.MALOSH_ID).getMemberById(player2).getEffectiveName())
+		    .queue(message -> {
+			message.addReaction("🪨").queue();
+			message.addReaction("📄").queue();
+			message.addReaction("✂️").queue();
+		    });
+
+	    PrivateChannel c2 = MainClass.jda.getUserById(player2).openPrivateChannel().complete();
+	    c2.sendMessage("Reply to this message with your pick, playing vs: "
+		    + MainClass.jda.getGuildById(MainClass.MALOSH_ID).getMemberById(player1).getEffectiveName())
+		    .queue(message -> {
+			message.addReaction("🪨").queue();
+			message.addReaction("📄").queue();
+			message.addReaction("✂️").queue();
+		    });
 	}
 
 	private void processGame() {
