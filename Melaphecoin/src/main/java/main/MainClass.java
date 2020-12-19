@@ -24,6 +24,7 @@ import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.requests.GatewayIntent;
+import taxes.CountingToTax;
 
 public class MainClass {
 
@@ -39,6 +40,9 @@ public class MainClass {
 	String token = Files.readAllLines(new File(TOKEN_FILE).toPath(), Charset.defaultCharset()).get(0);
 
 	jda = JDABuilder.create(token, GatewayIntent.getIntents(GatewayIntent.ALL_INTENTS)).build();
+
+	jda.awaitReady();
+
 	jda.addEventListener(new Coinflip());
 	jda.addEventListener(new Balance());
 	jda.addEventListener(new RockPaperScissors());
@@ -48,9 +52,10 @@ public class MainClass {
 	jda.addEventListener(new ForceSave());
 	jda.addEventListener(new Help());
 	jda.addEventListener(new Leaderboard());
+	
+	jda.addEventListener(new CountingToTax());
 	Database.database(); // boot the database
 
-	jda.awaitReady();
 	melaphecoin = getGuild().getEmotesByName("Melaphecoin", false).get(0);
 	coin = " " + melaphecoin.getAsMention();
     }
@@ -58,15 +63,15 @@ public class MainClass {
     public static String tagMember(long memberId) {
 	return getMemberById(memberId).getAsMention();
     }
-    
+
     public static User getUserById(long userId) {
 	return jda.getUserById(userId);
     }
-    
+
     public static Member getMemberById(long memberId) {
 	return getGuild().getMemberById(memberId);
     }
-    
+
     public static Guild getGuild() {
 	return jda.getGuildById(MALOSH_ID);
     }

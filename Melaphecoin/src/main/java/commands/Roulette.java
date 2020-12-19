@@ -37,8 +37,10 @@ public class Roulette extends ListenerAdapter {
 		    if (prize == -1)
 			event.getChannel().sendMessage(tagMember(memberId) + " lost: **" + bet + " " + coin + "**")
 				.queue();
-		    else if (prize == -2)
+		    else if (prize == -2) {
 			event.getChannel().sendMessage(tagMember(memberId) + " Please enter a valid color").queue();
+			database.add(event.getMember().getIdLong(), bet); //undo the payment
+		    }
 		    else {
 			event.getChannel().sendMessage(tagMember(memberId) + " won: **" + (prize - bet) + coin + "**")
 				.queue();
