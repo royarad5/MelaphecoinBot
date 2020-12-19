@@ -1,6 +1,7 @@
 package commands;
 
 import static main.MainClass.coin;
+import static database.MessageDeletor.*;
 import static main.MainClass.tagMember;
 
 import database.Database;
@@ -15,6 +16,8 @@ public class Balance extends ListenerAdapter {
 	if (!msg.toLowerCase().startsWith("?balance") && !msg.toLowerCase().startsWith("?bal") && !msg.toLowerCase().startsWith("?cash")
 		&& !msg.toLowerCase().startsWith("?money"))
 	    return;
+	
+	deleteMessage(event.getChannel().getIdLong(), event.getMessage().getIdLong());
 
 	String[] parts = msg.split(" ");
 	long member = event.getMember().getIdLong();

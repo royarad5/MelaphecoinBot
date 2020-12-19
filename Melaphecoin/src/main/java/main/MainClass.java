@@ -24,7 +24,8 @@ import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.requests.GatewayIntent;
-import taxes.CountingToTax;
+import passiveTasks.CountingToTax;
+import passiveTasks.SelfDeletor;
 
 public class MainClass {
 
@@ -54,6 +55,7 @@ public class MainClass {
 	jda.addEventListener(new Leaderboard());
 	
 	jda.addEventListener(new CountingToTax());
+	jda.addEventListener(new SelfDeletor());
 	Database.database(); // boot the database
 
 	melaphecoin = getGuild().getEmotesByName("Melaphecoin", false).get(0);

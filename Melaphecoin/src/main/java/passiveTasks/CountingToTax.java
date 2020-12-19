@@ -1,4 +1,4 @@
-package taxes;
+package passiveTasks;
 
 import database.Database;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
@@ -19,16 +19,16 @@ public class CountingToTax extends ListenerAdapter {
 	    long memberId = event.getMember().getIdLong();
 
 	    Database db = Database.database();
-	    int taxSize = db.subtract(memberId, TAX);
-	    if (taxSize == -1) {
+	    int taxSize = TAX;
+	    if (db.subtract(memberId, TAX) == -1) {
+		taxSize = db.getBalance(memberId);
 		db.setBalance(memberId, 0);
-		taxSize = 0;
 	    }
 
 	    getGuild().getDefaultChannel()
 		    .sendMessage(tagMember(memberId)
 			    + " typed something that is not a number in Counting to 20,000 and got taxed for: **"
-			    + taxSize + " " + coin + "**")
+			    + taxSize + coin + "**")
 		    .queue();
 	}
 

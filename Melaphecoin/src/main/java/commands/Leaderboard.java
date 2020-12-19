@@ -1,5 +1,6 @@
 package commands;
 
+import static database.MessageDeletor.deleteMessage;
 import static main.MainClass.tagMember;
 
 import java.util.ArrayList;
@@ -19,6 +20,8 @@ public class Leaderboard extends ListenerAdapter {
 		&& !event.getMessage().getContentDisplay().toLowerCase().startsWith("?lb"))
 	    return;
 
+	deleteMessage(event.getChannel().getIdLong(), event.getMessage().getIdLong());
+	
 	ConcurrentHashMap<Long, Integer> balances = Database.database().getBalances();
 
 	List<Entry<Long, Integer>> list = new ArrayList<>(balances.entrySet());

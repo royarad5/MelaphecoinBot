@@ -1,5 +1,6 @@
 package commands;
 
+import static database.MessageDeletor.deleteMessage;
 import static main.MainClass.coin;
 import static main.MainClass.tagMember;
 
@@ -14,6 +15,8 @@ public class Transfer extends ListenerAdapter {
 	String msg = event.getMessage().getContentRaw();
 	if (!msg.toLowerCase().startsWith("?give") && !msg.toLowerCase().startsWith("?transfer"))
 	    return;
+	
+	deleteMessage(event.getChannel().getIdLong(), event.getMessage().getIdLong());
 
 	String[] parts = msg.split(" ");
 
