@@ -20,16 +20,17 @@ public class Help extends ListenerAdapter {
 	    + "?give *amount* @person - will give the person you tag a specific amount of money.\r\n" + "\r\n"
 	    + "?help - display this message.\r\n" + "\r\n"
 	    + "?leaderboard - print the top 5 richest members of the server\r\n" + "\r\n"
-	    + "?loan *amount* - take a loan for up to (100 + 3.5 * balance). You will return 10% extra. 10% of your income is taken until you return your loan\r\n"
-	    + "\r\n" + "?overview - display your balance and your debt\r\n" + "\r\n"
+	    + "?loan *amount* - take a loan for up to (500 + 3 * balance). You will return 5% extra. 10% of your income is taken until you return your loan\r\n"
+	    + "\r\n" + "?maxloan - display the maximum loan you can take\r\n" + "\r\n"
+	    + "?overview - display your balance and your debt\r\n" + "\r\n"
 	    + "?paytodebt *amount* - pay given amount to fill your debt, excess money will be returned to your balance.\r\n"
 	    + "\r\n"
 	    + "?rps *amount* @person - rock paper scissors. You will be sent a message from the bot and you will need to react with one of the three options.\r\n"
 	    + "\r\n"
 	    + "?roulette *amount* *color* (red, black or green) - roulette. can choose from red(x2), black(x2) and green(x14). If you win your money will be multiplied by the numbers next to the color.\r\n"
 	    + "\r\n" + "alternative ways of writing the commands:\r\n" + "?ballance = ?bal, ?cash, ?money\r\n"
-	    + "?coinflip = ?cf\r\n" + "?dailyspin = ?ds\r\n" + "?leaderboard = ?lb\r\n" + "?overview = ?ov\r\n"
-	    + "?paytodebt = ?ptd\r\n" + "?roulette = ?rt\r\n" + "?give = ?transfer```";
+	    + "?coinflip = ?cf\r\n" + "?dailyspin = ?ds\r\n" + "?leaderboard = ?lb\r\n" + "?maxloan - ?ml\r\n"
+	    + "?overview = ?ov\r\n" + "?paytodebt = ?ptd\r\n" + "?roulette = ?rt\r\n" + "?give = ?transfer```";
 
     @Override
     public void onMessageReceived(MessageReceivedEvent event) {

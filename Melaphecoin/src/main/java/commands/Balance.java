@@ -1,6 +1,7 @@
 package commands;
 
 import static main.MainClass.coin;
+import static main.MainClass.getMemberId;
 import static main.MainClass.inGeneral;
 import static main.MainClass.tagMember;
 
@@ -30,9 +31,11 @@ public class Balance extends ListenerAdapter {
 	long member = event.getMember().getIdLong();
 
 	if (parts.length > 1)
-	    member = Long.valueOf(parts[1].substring(2, parts[1].length() - 1));
+	    member = getMemberId(parts[1]);
 
 	event.getChannel()
 		.sendMessage(tagMember(member) + ": **" + Database.database().getBalance(member) + "**" + coin).queue();
     }
+    
+
 }

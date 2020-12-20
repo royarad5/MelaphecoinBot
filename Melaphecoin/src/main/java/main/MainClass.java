@@ -15,6 +15,7 @@ import commands.ForceSave;
 import commands.Help;
 import commands.Leaderboard;
 import commands.Loan;
+import commands.MaxLoan;
 import commands.Overview;
 import commands.PayToDebt;
 import commands.RockPaperScissors;
@@ -37,7 +38,7 @@ import passiveTasks.CountingToFine;
  */
 public class MainClass {
 
-    private static final String TOKEN_FILE = "C:\\Users\\almog\\Desktop\\token.txt";
+    private static final String TOKEN_FILE = "./data/token.txt";
 
     public static long GENERAL_CHAT = 0;
     public static final long MALOSH_ID = 699728425941991566l;
@@ -67,6 +68,7 @@ public class MainClass {
 	jda.addEventListener(new PayToDebt());
 	jda.addEventListener(new Overview());
 	jda.addEventListener(new Sex());
+	jda.addEventListener(new MaxLoan());
 
 	jda.addEventListener(new CountingToFine());
 	Database.database(); // boot the database
@@ -74,6 +76,10 @@ public class MainClass {
 	melaphecoin = getGuild().getEmotesByName("Melaphecoin", false).get(0);
 	coin = " " + melaphecoin.getAsMention();
 	GENERAL_CHAT = getGuild().getDefaultChannel().getIdLong();
+    }
+
+    public static long getMemberId(String rawId) {
+	return Long.valueOf(rawId.replace("<", "").replace(">", "").replace("!", "").replace("@", "").replace("&", ""));
     }
 
     public static String tagMember(long memberId) {
@@ -91,7 +97,7 @@ public class MainClass {
     public static Guild getGuild() {
 	return jda.getGuildById(MALOSH_ID);
     }
-    
+
     public static boolean inGeneral(MessageReceivedEvent event) {
 	return event.getChannel().getIdLong() == GENERAL_CHAT;
     }

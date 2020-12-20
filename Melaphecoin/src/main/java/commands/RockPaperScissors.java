@@ -3,6 +3,7 @@ package commands;
 import static main.MainClass.coin;
 import static main.MainClass.getGuild;
 import static main.MainClass.getMemberById;
+import static main.MainClass.getMemberId;
 import static main.MainClass.getUserById;
 import static main.MainClass.inGeneral;
 import static main.MainClass.tagMember;
@@ -41,7 +42,7 @@ public class RockPaperScissors extends ListenerAdapter {
 	String outMessage = "";
 
 	long player1 = event.getMember().getIdLong();
-	long player2 = Long.valueOf(parts[2].substring(2, parts[2].length() - 1));
+	long player2 = getMemberId(parts[2]);
 	int gameIndex = indexOf(player1, player2);
 
 	if ("accept".equalsIgnoreCase(parts[1])) {

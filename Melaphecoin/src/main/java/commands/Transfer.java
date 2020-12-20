@@ -1,6 +1,7 @@
 package commands;
 
 import static main.MainClass.coin;
+import static main.MainClass.getMemberId;
 import static main.MainClass.inGeneral;
 import static main.MainClass.tagMember;
 
@@ -29,14 +30,9 @@ public class Transfer extends ListenerAdapter {
 
 	String[] parts = msg.split(" ");
 
-	System.out.println(msg);
-	System.out.println(parts[0]);
-	System.out.println(parts[1]);
-	System.out.println(parts[2]);
-
 	try {
 	    int amount = Integer.valueOf(parts[1]);
-	    long target = Long.valueOf(parts[2].substring(2, parts[2].length() - 1));
+	    long target = getMemberId(parts[2]);
 	    long giver = event.getMember().getIdLong();
 
 	    if (amount < 0) {

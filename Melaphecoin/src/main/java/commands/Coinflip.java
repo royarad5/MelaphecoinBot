@@ -1,6 +1,6 @@
 package commands;
 
-import static main.MainClass.coin;
+import static main.MainClass.*;
 import static main.MainClass.inGeneral;
 import static main.MainClass.tagMember;
 
@@ -22,14 +22,13 @@ public class Coinflip extends ListenerAdapter {
     private final ArrayList<CoinflipData> flips = new ArrayList<CoinflipData>();
 
     @Override
-    public void onMessageReceived(MessageReceivedEvent event) {	
+    public void onMessageReceived(MessageReceivedEvent event) {
 	if (inGeneral(event))
 	    return;
 
 	String msg = event.getMessage().getContentRaw();
 	if (!msg.toLowerCase().startsWith("?coinflip") && !msg.toLowerCase().startsWith("?cf"))
 	    return;
-
 
 	String[] parts = msg.split(" ");
 	if (parts.length < 3)
@@ -38,13 +37,12 @@ public class Coinflip extends ListenerAdapter {
 	String outMessage = "";
 	try {
 	    if ("accept".equals(parts[1])) {
-		long player1 = Long.valueOf(parts[2].substring(2, parts[2].length() - 1));
+		long player1 = getMemberId(parts[2]);
 		long player2 = event.getMember().getIdLong();
 
 		int flipIndex = indexOf(player1, player2);
 		if (flipIndex == -1)
-		    outMessage = tagMember(player1) + " and " + tagMember(player2)
-			    + " don't have a bet together";
+		    outMessage = tagMember(player1) + " and " + tagMember(player2) + " don't have a bet together";
 		else {
 		    CoinflipData placedFlip = flips.remove(flipIndex);
 
@@ -64,37 +62,33 @@ public class Coinflip extends ListenerAdapter {
 		}
 	    } else {
 		long player1 = event.getMember().getIdLong();
-		long player2 = Long.valueOf(parts[2].substring(2, parts[2].length() - 1));
+		long player2 = getMemberId(parts[2]);
 		int amount = Integer.valueOf(parts[1]);
-		
+
 		if (amount < 0) {
 		    event.getChannel().sendMessage("Please enter a positive number").queue();
 		    return;
 		}
 
 		if (database.getBalance(player1) < amount)
-		    outMessage = tagMember(player1) + " can't afford a bet of: **" + amount + coin
-			    + "**";
+		    outMessage = tagMember(player1) + " can't afford a bet of: **" + amount + coin + "**";
 		else if (database.getBalance(player2) < amount)
-		    outMessage = tagMember(player2) + " can't afford a bet of: **" + amount +coin
-			    + "**";
+		    outMessage = tagMember(player2) + " can't afford a bet of: **" + amount + coin + "**";
 		else {
 
 		    int flipIndex = indexOf(player1, player2);
 		    if (flipIndex == -1) {
 			flips.add(new CoinflipData(player1, player2, amount));
 
-			outMessage = "Placed a bet for: **" + amount + coin + "** between "
-				+ tagMember(player1) + " and " + tagMember(player2)
-				+ " waiting for: ?cf accept " + tagMember(player1);
+			outMessage = "Placed a bet for: **" + amount + coin + "** between " + tagMember(player1)
+				+ " and " + tagMember(player2) + " waiting for: ?cf accept " + tagMember(player1);
 		    } else {
 			CoinflipData placedFlip = flips.remove(flipIndex);
 			flips.add(new CoinflipData(player1, player2, amount));
 
-			outMessage = "Replaced a bet between " + tagMember(player1) + " and "
-				+ tagMember(player2) + " for: **" + placedFlip.amount + coin
-				+ "** with: **" + amount + coin + "** waiting for: ?cf accept "
-				+ tagMember(player1);
+			outMessage = "Replaced a bet between " + tagMember(player1) + " and " + tagMember(player2)
+				+ " for: **" + placedFlip.amount + coin + "** with: **" + amount + coin
+				+ "** waiting for: ?cf accept " + tagMember(player1);
 			;
 		    }
 		}
