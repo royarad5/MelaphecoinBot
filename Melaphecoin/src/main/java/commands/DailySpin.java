@@ -1,8 +1,8 @@
 package commands;
 
-import static main.Main.coin;
-import static main.Main.inGeneral;
-import static main.Main.tagMember;
+import static main.MainClass.coin;
+import static main.MainClass.inGeneral;
+import static main.MainClass.tagMember;
 
 import java.util.Random;
 
@@ -73,7 +73,7 @@ public class DailySpin extends ListenerAdapter {
 	else
 	    prize = 25;
 
-	database.add(memberId, prize);
+	database.add(memberId, prize, false);
 	event.getChannel().sendMessage(tagMember(memberId) + " won: **" + prize + coin + "**").queue();
     }
 }

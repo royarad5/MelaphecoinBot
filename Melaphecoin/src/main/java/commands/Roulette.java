@@ -1,8 +1,8 @@
 package commands;
 
-import static main.Main.coin;
-import static main.Main.inGeneral;
-import static main.Main.tagMember;
+import static main.MainClass.coin;
+import static main.MainClass.inGeneral;
+import static main.MainClass.tagMember;
 
 import java.util.Random;
 
@@ -53,10 +53,10 @@ public class Roulette extends ListenerAdapter {
 				.queue();
 		    else if (prize == -2) {
 			event.getChannel().sendMessage(tagMember(memberId) + " Please enter a valid color").queue();
-			database.add(event.getMember().getIdLong(), bet); // undo the payment
+			database.add(event.getMember().getIdLong(), bet, false); // undo the payment
 		    } else {
 			event.getChannel().sendMessage(tagMember(memberId) + " won: **" + prize + coin + "**").queue();
-			database.add(memberId, prize);
+			database.add(memberId, prize, false);
 		    }
 		}
 	    }

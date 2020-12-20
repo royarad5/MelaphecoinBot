@@ -1,5 +1,7 @@
 package database;
 
+import static main.MainClass.OWNER;
+
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -27,6 +29,11 @@ public class Database extends Thread {
     private static final String DEBTS_FILE = "./data/debts.txt";
     private static final long BACKUP_CYCLE_TIME = 10 * 60000; // 10 minutes
 
+    private static final float DEBT_TAX = 0.1f;
+    private static final float VAT = 0.07f;
+
+    private static final int VAT_THRESHOLD = 25;
+    
     private static final int STARTING_BALANCE = 100;
 
     public static final Database DATABASE = new Database();
@@ -177,7 +184,7 @@ public class Database extends Thread {
 	if (amount > maxLoanSize(memberId))
 	    return -1;
 
-	add(memberId, amount);
+	add(memberId, amount, true);
 	debts.put(memberId, (int) (amount * 1.05));
 	updateDebts = true;
 
@@ -220,18 +227,24 @@ public class Database extends Thread {
     }
 
     /**
-     * takes a 10% tax from the income action
+     * applies taxes
      * 
      * @param memberId - member to tax
      * @param amount   - amount of money before taxation
      * @return - taxes paid
      */
-    private int taxAction(long memberId, int amount) {
-	if (getDebtSize(memberId) > 0) {
-	    payToDebt(memberId, (int) (amount * 0.1));
-	    return (int) (amount * 0.1);
+    private void taxAction(long memberId, int amount, boolean vatFree) {
+	if (!vatFree && amount > VAT_THRESHOLD) {	    
+	    int balance = getBalance(memberId);
+	    int newBalance = subtract(memberId, (int) (amount * VAT));
+
+	    if (newBalance != -1)
+		balances.put(OWNER, balances.get(OWNER) + (balance - newBalance));
 	}
-	return 0;
+	
+	if (getDebtSize(memberId) > 0)
+	    payToDebt(memberId, (int) (amount * DEBT_TAX));
+
     }
 
     /**
@@ -313,15 +326,12 @@ public class Database extends Thread {
      * 
      * @param memberId - target member
      * @param amount   - amount to add
-     * @return new balance
      */
-    public int add(long memberId, int amount) {
+    public void add(long memberId, int amount, boolean vatFree) {
 	validateMemberBalance(memberId);
-	int newBalance = balances.get(memberId) + amount;
-	balances.put(memberId, newBalance);
-	taxAction(memberId, amount);
+	balances.put(memberId, balances.get(memberId) + amount);
+	taxAction(memberId, amount, vatFree);
 	updateBalance = true;
-	return newBalance;
     }
 
     /**
@@ -358,7 +368,7 @@ public class Database extends Thread {
 	if (subtract(member1, amount) == -1)
 	    return false;
 
-	add(member2, amount);
+	add(member2, amount, true);
 	return true;
     }
 

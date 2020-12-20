@@ -1,12 +1,11 @@
 package commands;
-
-import static main.Main.coin;
-import static main.Main.getGuild;
-import static main.Main.getMemberById;
-import static main.Main.getMemberId;
-import static main.Main.getUserById;
-import static main.Main.inGeneral;
-import static main.Main.tagMember;
+import static main.MainClass.coin;
+import static main.MainClass.getGuild;
+import static main.MainClass.getMemberById;
+import static main.MainClass.getMemberId;
+import static main.MainClass.getUserById;
+import static main.MainClass.inGeneral;
+import static main.MainClass.tagMember;
 
 import java.util.ArrayList;
 

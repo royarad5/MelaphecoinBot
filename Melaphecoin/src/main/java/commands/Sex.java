@@ -1,6 +1,5 @@
 package commands;
-
-import static main.Main.inGeneral;
+import static main.MainClass.inGeneral;
 
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;

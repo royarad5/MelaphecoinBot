@@ -1,10 +1,11 @@
 package commands;
+import static main.MainClass.coin;
+import static main.MainClass.inGeneral;
+import static main.MainClass.tagMember;
 
 import database.Database;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
-
-import static main.Main.*;
 
 /**
  * pays to fill the member's debt syntax: ?ptd *amount* also: ?paytodebt

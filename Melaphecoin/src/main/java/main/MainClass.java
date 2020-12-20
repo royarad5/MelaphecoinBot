@@ -29,13 +29,15 @@ import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.requests.GatewayIntent;
-import passiveTasks.CountingToFine;
+import passiveTasks.CountingToManager;
 
 /**
  * class containing the main method, also contains helper function and variables
  */
-public class Main {
+public class MainClass {
 
+    public static final long OWNER = 402166510795227139l;
+    
     public static long GENERAL_CHAT = 0;
     public static final long MALOSH_ID = 699728425941991566l;
     public static Emote melaphecoin = null;
@@ -49,6 +51,8 @@ public class Main {
 	String token = scanner.nextLine();
 	scanner.close();
 	
+	KeepAliveServer kas = new KeepAliveServer();
+	kas.start();
 	
 	jda = JDABuilder.create(token, GatewayIntent.getIntents(GatewayIntent.ALL_INTENTS)).build();
 
@@ -70,7 +74,7 @@ public class Main {
 	jda.addEventListener(new Sex());
 	jda.addEventListener(new MaxLoan());
 
-	jda.addEventListener(new CountingToFine());
+	jda.addEventListener(new CountingToManager());
 	Database.database(); // boot the database
 
 	melaphecoin = getGuild().getEmotesByName("Melaphecoin", false).get(0);

@@ -1,9 +1,9 @@
 package commands;
 
-import static main.Main.coin;
-import static main.Main.getMemberId;
-import static main.Main.inGeneral;
-import static main.Main.tagMember;
+import static main.MainClass.coin;
+import static main.MainClass.getMemberId;
+import static main.MainClass.inGeneral;
+import static main.MainClass.tagMember;
 
 import database.Database;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
@@ -47,7 +47,6 @@ public class Transfer extends ListenerAdapter {
 		event.getChannel().sendMessage(tagMember(giver) + " can't give: **" + amount + coin + "**").queue();
 	} catch (Exception e) {
 	    event.getChannel().sendMessage("Error while processing the command").queue();
-	    e.printStackTrace();
 	}
     }
 }
