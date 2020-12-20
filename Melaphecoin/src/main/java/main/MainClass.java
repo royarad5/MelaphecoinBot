@@ -1,9 +1,7 @@
 package main;
 
-import java.io.File;
 import java.io.IOException;
-import java.nio.charset.Charset;
-import java.nio.file.Files;
+import java.util.Scanner;
 
 import javax.security.auth.login.LoginException;
 
@@ -38,8 +36,6 @@ import passiveTasks.CountingToFine;
  */
 public class MainClass {
 
-    private static final String TOKEN_FILE = "./data/token.txt";
-
     public static long GENERAL_CHAT = 0;
     public static final long MALOSH_ID = 699728425941991566l;
     public static Emote melaphecoin = null;
@@ -48,8 +44,12 @@ public class MainClass {
     public static JDA jda;
 
     public static void main(String[] args) throws LoginException, InterruptedException, IOException {
-	String token = Files.readAllLines(new File(TOKEN_FILE).toPath(), Charset.defaultCharset()).get(0);
-
+	Scanner scanner = new Scanner(System.in);
+	System.out.println("Enter Token:");
+	String token = scanner.nextLine();
+	scanner.close();
+	
+	
 	jda = JDABuilder.create(token, GatewayIntent.getIntents(GatewayIntent.ALL_INTENTS)).build();
 
 	jda.awaitReady();
