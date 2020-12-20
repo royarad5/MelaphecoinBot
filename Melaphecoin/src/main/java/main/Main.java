@@ -34,7 +34,7 @@ import passiveTasks.CountingToFine;
 /**
  * class containing the main method, also contains helper function and variables
  */
-public class MainClass {
+public class Main {
 
     public static long GENERAL_CHAT = 0;
     public static final long MALOSH_ID = 699728425941991566l;

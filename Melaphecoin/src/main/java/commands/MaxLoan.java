@@ -1,7 +1,7 @@
 package commands;
 
 import database.Database;
-import static main.MainClass.*;
+import static main.Main.*;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 

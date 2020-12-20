@@ -1,9 +1,9 @@
 package commands;
 
-import static main.MainClass.coin;
-import static main.MainClass.getMemberId;
-import static main.MainClass.inGeneral;
-import static main.MainClass.tagMember;
+import static main.Main.coin;
+import static main.Main.getMemberId;
+import static main.Main.inGeneral;
+import static main.Main.tagMember;
 
 import database.Database;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;

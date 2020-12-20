@@ -1,8 +1,8 @@
 package commands;
 
-import static main.MainClass.*;
-import static main.MainClass.inGeneral;
-import static main.MainClass.tagMember;
+import static main.Main.*;
+import static main.Main.inGeneral;
+import static main.Main.tagMember;
 
 import java.util.ArrayList;
 

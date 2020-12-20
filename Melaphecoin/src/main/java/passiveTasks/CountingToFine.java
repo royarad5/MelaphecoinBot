@@ -4,7 +4,7 @@ import database.Database;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
-import static main.MainClass.*;
+import static main.Main.*;
 
 /**
  * tracks the fines for typing text in the counting to 20,000 text channel
