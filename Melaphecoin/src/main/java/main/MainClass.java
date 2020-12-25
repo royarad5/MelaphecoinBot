@@ -9,7 +9,7 @@ import commands.Balance;
 import commands.Coinflip;
 import commands.DailySpin;
 import commands.Debt;
-import commands.ForceSave;
+import commands.SaveAndQuit;
 import commands.Help;
 import commands.Leaderboard;
 import commands.Loan;
@@ -64,7 +64,7 @@ public class MainClass {
 	jda.addEventListener(new DailySpin());
 	jda.addEventListener(new Roulette());
 	jda.addEventListener(new Transfer());
-	jda.addEventListener(new ForceSave());
+	jda.addEventListener(new SaveAndQuit());
 	jda.addEventListener(new Help());
 	jda.addEventListener(new Leaderboard());
 	jda.addEventListener(new Debt());

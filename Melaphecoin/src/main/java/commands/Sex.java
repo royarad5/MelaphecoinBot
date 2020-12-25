@@ -1,4 +1,5 @@
 package commands;
+
 import static main.MainClass.inGeneral;
 
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
@@ -12,9 +13,7 @@ public class Sex extends ListenerAdapter {
     public void onMessageReceived(MessageReceivedEvent event) {
 	if (inGeneral(event))
 	    return;
-	if (event.getMessage().getContentDisplay().toLowerCase().startsWith("?sex")) {
+	if (event.getMessage().getContentDisplay().toLowerCase().startsWith("?sex"))
 	    event.getChannel().sendMessage("Yes").queue();
-	    event.getMember().mute(false).queue();
-	}
     }
 }

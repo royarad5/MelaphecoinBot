@@ -30,7 +30,7 @@ public class Database extends Thread {
     private static final long BACKUP_CYCLE_TIME = 10 * 60000; // 10 minutes
 
     private static final float DEBT_TAX = 0.1f;
-    private static final float VAT = 0.05f;
+    private static final float VAT = 0.03f;
 
     private static final int VAT_THRESHOLD = 50;
     
