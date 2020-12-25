@@ -27,4 +27,8 @@
 			<url>https://jcenter.bintray.com</url>
 		</repository>
 	</repositories>
+
+	<properties>
+		<maven.compiler.release>9</maven.compiler.release>
+	</properties>
 </project>
