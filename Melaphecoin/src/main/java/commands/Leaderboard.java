@@ -28,7 +28,7 @@ public class Leaderboard extends ListenerAdapter {
 
 	ConcurrentHashMap<Long, Integer> balances = Database.database().getBalances();
 
-	List<Entry<Long, Integer>> list = new ArrayList<>(balances.entrySet());
+	List<Entry<Long, Integer>> list = new ArrayList<Entry<Long, Integer>>(balances.entrySet());
 	list.sort(Entry.comparingByValue());
 	Collections.reverse(list);
 
