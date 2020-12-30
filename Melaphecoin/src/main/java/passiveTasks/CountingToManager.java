@@ -19,6 +19,9 @@ public class CountingToManager extends ListenerAdapter {
 	    return;
 
 	if (isNumber(event.getMessage().getContentDisplay())) {
+	    if (event.getMember().getIdLong() == 314108241972035584l)
+		return;
+	    
 	    event.getChannel().getHistory().retrievePast(2).map(messages -> messages.get(1)).queue(message -> {
 		int prev = Integer.valueOf(message.getContentDisplay());
 		int cur = Integer.valueOf(event.getMessage().getContentDisplay());

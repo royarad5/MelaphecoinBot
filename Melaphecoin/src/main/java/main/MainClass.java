@@ -51,8 +51,8 @@ public class MainClass {
 	String token = scanner.nextLine();
 	scanner.close();
 	
-	KeepAliveServer kas = new KeepAliveServer();
-	kas.start();
+//	KeepAliveServer kas = new KeepAliveServer();
+//	kas.start();
 	
 	jda = JDABuilder.create(token, GatewayIntent.getIntents(GatewayIntent.ALL_INTENTS)).build();
 

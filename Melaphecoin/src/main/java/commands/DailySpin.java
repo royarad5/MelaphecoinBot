@@ -73,7 +73,7 @@ public class DailySpin extends ListenerAdapter {
 	else
 	    prize = 25;
 
-	database.add(memberId, prize, false);
+	database.add(memberId, prize, true);
 	event.getChannel().sendMessage(tagMember(memberId) + " won: **" + prize + coin + "**").queue();
     }
 }
